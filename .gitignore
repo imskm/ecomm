@@ -1,0 +1,11 @@
+composer.lock
+app/Config.php
+resource/
+tests/
+temp/
+vendor/
+storage/
+
+.*
+!.gitignore
+!.htaccess
