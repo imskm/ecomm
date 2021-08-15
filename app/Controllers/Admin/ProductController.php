@@ -18,6 +18,13 @@ class ProductController extends Controller
 	{
 		$products = Product::recent(get_page())->get();
 
+		// View
+		// foreach ($products as $p) {
+		// 	$available_sizes = $p->productSizes()->get();
+		// 	$available_colors = $p->productColors()->get();
+		// 	$product_stocks = $p->productStocks()->get();
+		// }
+
 		 $this->view->render("Admin/Product/index.php", [
 		 	"products" => $products,
 		 ]);

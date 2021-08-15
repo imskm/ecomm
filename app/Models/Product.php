@@ -27,6 +27,20 @@ class Product extends Model
 	{
 		$product = new self;
 
+		self::populateProduct($product, $data);
+		$product->created_at = $product->updated_at = date("Y-m-d H:i:s");
+
+		return $product;
+	}
+
+	public static function change(Product &$product, array $data)
+	{
+		self::populateProduct($product, $data);
+		$product->updated_at = date("Y-m-d H:i:s");
+	}
+
+	private static function populateProduct(Product &$product, array $data)
+	{
 		$product->code 			= $data['code'];
 		$product->title 		= title_case($data['title']);
 		$product->description 	= $data['description'];
@@ -40,8 +54,6 @@ class Product extends Model
 		} else {
 			$product->is_returnable = 0;
 		}
-
-		return $product;
 	}
 
 	public static function makeSizes(array $data)
@@ -58,5 +70,10 @@ class Product extends Model
 		}
 
 		return $product_sizes;
+	}
+
+	public function productSizes()
+	{
+		return ProductAvailableSize::byProductId($this->id);
 	}
 }
