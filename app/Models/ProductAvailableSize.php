@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Size;
 use Fantom\Database\Model;
 
 /**
@@ -35,5 +36,10 @@ class ProductAvailableSize extends Model
 	public static function byProductId($product_id)
 	{
 		return static::where("product_id", $product_id);
+	}
+
+	public function size()
+	{
+		return Size::find($this->size_id)->first();
 	}
 }

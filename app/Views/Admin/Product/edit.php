@@ -1,4 +1,4 @@
-<?php $this->use('templates/main.php',['title'=>'Ecomm | Product','mainPage'=>'Product','page'=>'Create Product']) ?>
+<?php $this->use('templates/main.php',['title'=>'Ecomm | Product','mainPage'=>'Product','page'=>'Edit Product']) ?>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -8,13 +8,13 @@
         	<div class="card-body">
         		<div class="row">
 		          <div class="col-sm-6">
-		            <h1>Product Create</h1>
+		            <h1>Edit Product</h1>
 		          </div>
 		          <div class="col-sm-6">
 		            <ol class="breadcrumb float-sm-right">
 		              <li class="breadcrumb-item"><a href="#">Home</a></li>
 		              <li class="breadcrumb-item active">Products</li>
-		              <li class="breadcrumb-item active">Product Create</li>
+		              <li class="breadcrumb-item active">Product Edit</li>
 		            </ol>
 		          </div>
         		</div>
@@ -38,50 +38,68 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/admin/product/store" method="post">
+              <form action="/admin/product/<?= $product->id ?>/update" method="post">
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-6">
                   		<div class="form-group">
 			                <label>Product Name<span style="color:red;">*</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Product Name" name="title">
+			                <input type="text" class="form-control" placeholder="Enter Product Name" name="title" value="<?= e($product->title) ?>">
+                      <input type="hidden" name="id" value="<?= e($product->id) ?>">
                   		</div>
                   		<div class="form-group">
 			                <label>Marked Price<span style="color:red;">*</span></label>
-			                <input type="number" class="form-control" placeholder="Enter Marked Price" name="price_mp">
+			                <input type="number" class="form-control" placeholder="Enter Marked Price" name="price_mp" value="<?= e($product->price_mp) ?>">
                   		</div>
                   		<div class="form-group">
 			                <label>Selling Price<span style="color:red;">*</span></label>
-			                <input type="number" class="form-control" placeholder="Enter Selling Price" name="price_sp">
+			                <input type="number" class="form-control" placeholder="Enter Selling Price" name="price_sp" value="<?= e($product->price_sp) ?>">
                   		</div>
                   		<div class="form-group">
                   			<label>Category<span style="color:red;">*</span></label>
-                  			<select class="form-control" name="category_id">
-                  				<option disabled="" selected="">Select Category</option>
+                  		
+
+                        <select class="form-control" name="category_id">
+                  				<option disabled="">Select Category</option>
                   				<?php foreach ($categories as $c): ?>
-                  					<option value="<?= e($c->id) ?>"><?= e($c->category) ?></option>
+                  					<option
+                              value="<?= e($c->id) ?>"
+                              <?= $product->category_id == $c->id ? "selected" : "" ?>>
+                                <?= e($c->category) ?>
+                            </option>
                   				<?php endforeach; ?>
 			                  </select>
-                  		</div>
+                  		
+
+
+                      </div>
                   	</div>
                   	<div class="col-md-6">
                   		<div class="form-group">
                     		<label>Product Code<span style="color:red;">*</span></label>
-                    		<input type="text" class="form-control" placeholder="Enter Title" name="code">
+                    		<input type="text" class="form-control" placeholder="Enter Title" name="code" value="<?= e($product->code) ?>">
                   		</div>
                   		<div class="form-group">
                     		<label>Description<span style="color:red;">*</span></label>
-                    		<textarea class="form-control" name="description" rows="4"></textarea>
+                    		<textarea class="form-control" name="description" rows="4"><?= e($product->description) ?></textarea>
                   		</div>
                   		<div class="form-group">
                   			<label>Material<span style="color:red;">*</span></label>
+
+
                   			<select class="form-control" name="material_id">
                   				<option disabled="" selected="">Select Material</option>
                   				<?php foreach ($materials as $m): ?>
-				                    <option value="<?= e($m->id) ?>"><?= e($m->material) ?></option>
+				                    <option
+                              <?= $product->material_id == $m->id ? "selected" : "" ?>
+                              value="<?= e($m->id) ?>">
+                              <?= e($m->material) ?>
+                            </option>
                   				<?php endforeach; ?>
 			                  </select>
-                  		</div>
+                  		
+
+                      </div>
                   	</div>
                   </div>
                 </div>

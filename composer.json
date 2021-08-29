@@ -10,7 +10,7 @@
 	],
 	"require": {
 		"php": ">=7.0",
-		"imskm/fantom": "^1.0"
+		"imskm/fantom": "dev-development"
 	},
 	"repositories": [
 		{

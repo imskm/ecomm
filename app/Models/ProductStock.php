@@ -32,5 +32,14 @@ class ProductStock extends Model
 		$product_stock->size_id		= (int) $data['size_id'];
 		$product_stock->stock		= (int) $data['stock'];
 	}
+
+	public static function byProductId($product_id)
+	{
+		return static::where("product_id", $product_id);
+	}
+	public function size()
+	{
+		return Size::find($this->size_id)->first();
+	}
 	
 }

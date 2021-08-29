@@ -32,5 +32,17 @@ class Category extends Model
 	{
 		$category->category = title_case($data['category']);
 	}
+
+	public  static function recent($page = 1, $item = 20)
+	{
+		$offset = calc_page_offset($page, $item);
+		$sql = "
+				SELECT * 
+				FROM product_categories
+				ORDER BY id DESC
+				LIMIT {$item} OFFSET {$offset}
+				";
+			return static::raw($sql);
+	}
 	
 }

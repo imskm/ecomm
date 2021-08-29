@@ -1,10 +1,11 @@
 <?php 
 
 namespace App\Controllers\Admin;
-
+use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductAvailableColor;
 use Fantom\Controller;
 use Fantom\Session;
 
@@ -16,18 +17,51 @@ class ProductColorController extends Controller
 		$this->view->render('Admin/ProductColor/index.php');
 	}
 
+	protected function create()
+	{
+		$product_id = get_or_empty("product_id");
+		if (empty($product_id)) {
+			Session::flash("error", "Product id not found");
+			redirect("admin/product-color/index");
+		}
+
+		$product = Product::find($product_id)->first();
+		$color = Color::all()->get();
+
+		$this->view->render("Admin/ProductColor/create.php",[
+			"product" => $product,
+			"colors" => $color,
+		]);
+	}
+
 	protected function store()
 	{
 		// @TODO validation
+		$v = new ProductValidtor();
+		$v->validateColorCreate();
 
-		$color = Color::make($_POST);
-		if ($color->save() === false) {
-			Session::flash("error", "Failed to create color");
-			redirect("admin/product-color/create");
+		$product_id = get_or_empty("product_id");
+		if($v->hasError())
+		{
+			redirect("admin/product-color/create?product_id={$product_id}");
+		}
+		
+		$color_ids = $_POST['color_ids'];
+		$product_id = $_POST['product_id'];
+		
+		foreach ($color_ids as $color_id) {
+			$prod_color = ProductAvailableColor::make([
+				'product_id' => $product_id,
+				'color_id' 	=> $color_id,
+			]);
+			if ($prod_color->save() === false) {
+				Session::flash("error", "Failed to attach color");
+				redirect("admin/product-color/create");
+			}
 		}
 
-		Session::flash("success", "Color created successfully");
-		redirect("admin/product-color/index");
+		Session::flash("success", "Product Color attached successfully");
+		redirect("admin/product-size/create?product_id={$product_id}");
 	}
 
 	protected function before()

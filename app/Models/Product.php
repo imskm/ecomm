@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Category;
+use App\Models\ProductAvailableSize;
 use App\Models\ProductSize;
+use App\Models\ProductStock;
 use Fantom\Database\Model;
 
 class Product extends Model
@@ -75,5 +78,21 @@ class Product extends Model
 	public function productSizes()
 	{
 		return ProductAvailableSize::byProductId($this->id);
+	}
+
+	public function productColors()
+	{
+		return ProductAvailableColor::byProductId($this->id);
+	}
+
+	public function category()
+	{
+		return Category::find($this->category_id)->first();
+	}
+
+
+	public function productStocks()
+	{
+		return ProductStock::byProductId($this->id);
 	}
 }

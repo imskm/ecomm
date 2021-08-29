@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Color;
 use Fantom\Database\Model;
 
 /**
@@ -17,7 +18,6 @@ class ProductAvailableColor extends Model
 		$product_color = new self;
 
 		self::populateProductAvailableColor($product_color, $data);
-		$product_color->created_at = $product_color->updated_at = date("Y-m-d H:i:s");
 
 		return $product_color;
 	}
@@ -25,12 +25,22 @@ class ProductAvailableColor extends Model
 	public static function change(ProductAvailableColor &$product_color, array $data)
 	{
 		self::populateProductAvailableColor($product_color, $data);
-		$product_color->updated_at = date("Y-m-d H:i:s");
 	}
 
 	private static function populateProductAvailableColor(ProductAvailableColor &$product_color, array $data)
 	{
-		$product_color->product_color = title_case($data['product_color']);
+		$product_color->product_id = (int) $data['product_id'];
+		$product_color->color_id = (int) $data['color_id'];
+	}
+
+	public static function byProductId($product_id)
+	{
+		return static::where("product_id", $product_id);
+	}
+
+	public function color()
+	{
+		return Color::find($this->color_id)->first();
 	}
 	
 }
