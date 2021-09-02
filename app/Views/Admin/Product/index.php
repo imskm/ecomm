@@ -64,13 +64,12 @@
                       <th>Selling Price</th>
                       <th>Created At</th>
                       <th>Action</th>
-                      
                     </tr>
                   </thead>
                   <tbody>
                   	<?php foreach($products as $product): ?>
                     <tr>
-                      <td><?= $product->id ?> </td>
+                      <td><a href="/admin/product/<?= e($product->id) ?>/show"><?= $product->id ?></a></td>
                       <td><?= $product->code ?></td>
                       <td><?= $product->title ?></td>
                       <td><?= $product->description ?></td>

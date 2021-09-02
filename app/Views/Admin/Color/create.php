@@ -23,6 +23,8 @@
        </div>
       </div><!-- /.container-fluid -->
     </section>
+    <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
+
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
