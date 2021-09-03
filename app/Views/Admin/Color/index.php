@@ -22,7 +22,8 @@
           </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
+        <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
+
 
     <!-- Main content -->
     <section class="content">
@@ -69,7 +70,7 @@
                       <td> <?= $color->color; ?>  </td>
                       <td><?= $color->code; ?></td>
                       <td>
-                        <a href="index"><i class="far fa-edit"></i></a>
+                        <a href="/admin/color/<?= e($color->id) ?>/edit"><i class="far fa-edit"></i></a>
                         <a href="#"><i class="far fa-trash-alt"></i></a>
                       </td>
 

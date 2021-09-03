@@ -2,6 +2,7 @@
 
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+    <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <section class="content-header">
       <div class="container-fluid">
         <div class="card">
@@ -22,7 +23,7 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
+
 
     <!-- Main content -->
     <section class="content">

@@ -27,6 +27,22 @@ class CategoryController extends Controller
 		$this->view->render("Admin/Category/create.php");
 	}
 
+	protected function edit()
+	{
+		$category_id = (int) $this->route_params['id'];
+		
+		$category = Category::find($category_id)->first();
+		if(is_null($category))
+		{
+			Session::flash("error","Category with Id '{$category_id}' is not Found");
+			redirect("admin/catehgory/index");
+		}
+
+		$this->view->render("Admin/Category/edit.php",[
+			"category" => $category
+		]);
+	}
+
 	protected function store()
 	{
 		// Validation
@@ -46,6 +62,28 @@ class CategoryController extends Controller
 		}
 
 		Session::flash("success","Category Created Successfully");
+		redirect("admin/category/index");
+	}
+
+	protected function update()
+	{
+		$v = new CategoryValidator();
+		$v->validateUpdate();
+		$category_id = (int) post_or_empty("id");
+
+		if($v->hasError())
+		{
+			redirect("admin/category/{$category_id}/edit");
+		}
+
+		$category = Category::find($category_id)->first();
+		Category::change($category, $_POST);
+		if($category->save() == false)
+		{
+			Session::flash("error","Failed to Update Category");
+			redirect("admin/category/{$category_id}/edit");
+		}
+		Session::flash("success","Category Upadated Successfully");
 		redirect("admin/category/index");
 	}
 

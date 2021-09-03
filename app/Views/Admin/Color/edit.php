@@ -1,23 +1,24 @@
-<?php $this->use('templates/main.php',['title'=>'Ecomm | Category','mainPage'=>'Category','page'=>'Create Category'])?>
+<?php $this->use('templates/main.php',['title'=>'Ecomm | Color','mainPage'=>'Color','page'=>'Edit Color']) ?>
+
 
 <div class="content-wrapper">
-  
-      <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
-
     <!-- Content Header (Page header) -->
+
+    <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="card">
         	<div class="card-body">
         		<div class="row">
 		          <div class="col-sm-6">
-		            <h1>Category Create</h1>
+		            <h1>Color Edit</h1>
 		          </div>
 		          <div class="col-sm-6">
 		            <ol class="breadcrumb float-sm-right">
 		              <li class="breadcrumb-item"><a href="#">Home</a></li>
-		              <li class="breadcrumb-item active">Category</li>
-		              <li class="breadcrumb-item active">Category Create</li>
+		              <li class="breadcrumb-item active">Colors</li>
+		              <li class="breadcrumb-item active">Color Edit</li>
 		            </ol>
 		          </div>
         		</div>
@@ -35,19 +36,23 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-              	<a href="/admin/category/index" class="btn btn-secondary float-right">View All Categories</a>
+              	<a href="/admin/color/index" class="btn btn-secondary float-right">View All Colors</a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/admin/category/store" method="POST">
+              <form action="/admin/color/<?= e($color->id) ?>/update" method="POST">
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-6">
                   		<div class="form-group">
-			                <label>Category Name<span style="color:red;">*</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Category Name" name="category">
+			                <label>Color Name<span style="color:red;">*</span></label>
+			                <input type="hidden" name="id" value="<?= e($color->id) ?>">
+                      <input type="text" class="form-control" name="color" value="<?= e($color->color) ?>">
                   		</div>
-   
+                  		<div class="form-group">
+			                <label>Color Code<span style="color:red;">*</span></label>
+			                <input type="text" class="form-control" name="code" value="<?= e($color->code) ?>">
+                  		</div>
                   	</div>
                   </div>
                 </div>

@@ -1,6 +1,9 @@
 <?php $this->use('templates/main.php',['title'=>'Ecomm | Material','mainPage'=>'Material','page'=>'Material List'])?>
 
  <div class="content-wrapper">
+
+  <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -22,7 +25,6 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
 
     <!-- Main content -->
     <section class="content">
@@ -68,7 +70,7 @@
                       <td> <?= $material->id; ?> </td>
                       <td> <?= $material->material; ?> </td>
                       <td>
-                        <a href="index"><i class="far fa-edit"></i></a>
+                        <a href="/admin/material/<?= e($material->id) ?>/edit"><i class="far fa-edit"></i></a>
                         <a href="#"><i class="far fa-trash-alt"></i></a>
                       </td>
 

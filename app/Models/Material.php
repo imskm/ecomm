@@ -33,6 +33,11 @@ class Material extends Model
 		return static::raw($sql);
 	}
 
+	public static function change(Material &$material, array $data)
+	{
+		self::populateMaterial($material, $data);
+	}
+
 	private static function populateMaterial(Material &$material ,array $data)
 	{
 		$material->material = title_case($data['material']);

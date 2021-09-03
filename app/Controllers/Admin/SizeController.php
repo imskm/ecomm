@@ -20,6 +20,22 @@ class SizeController extends Controller
 		]);
 	}
 
+	protected function edit()
+	{
+		$size_id = (int) $this->route_params['id'];
+		$size = Size::find($size_id)->first();
+
+		if(is_null($size))
+		{
+			Session::flash("error","Size with Id '{$size_id}' is not Found");
+			redirect("admin/size/index");
+		}
+
+		$this->view->render("Admin/Size/edit.php",[
+			"size" => $size
+		]);
+	}
+
 	protected function create()
 	{
 		$this->view->render('Admin/Size/create.php');
@@ -50,6 +66,32 @@ class SizeController extends Controller
 		Session::flash("success","Size Created Successfully");
 		redirect("admin/size/index");
 
+	}
+
+	protected function update()
+	{
+		$v = new SizeValidator();
+		$v->validateUpdate();
+		$size_id = (int) post_or_empty("id");
+
+		
+
+		if($v->hasError())
+		{
+			redirect("admin/size/{$size_id}/edit");
+		}
+
+		$size = Size::find($size_id)->first();
+
+		Size::change($size,$_POST);
+		if($size->save()===false)
+		{
+			Session::flash("error","Failed to Update size");
+			redirect("admin/size/{$size_id}/edit");
+		}
+
+		Session::flash("success","Size Updated Successful");
+		redirect("admin/size/index");
 	}
 
 	protected function before()

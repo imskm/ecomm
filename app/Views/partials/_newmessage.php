@@ -4,6 +4,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <ul>
                     <?php foreach ($this->errors->all() as $e): ?>
                       <li><?= $e ?></li>
@@ -21,15 +22,17 @@
             <div class="col-md-6">
               <div class="card-body">
                 <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <?= Fantom\Session::flash('error') ?>
                 </div>
               </div>
           </div>
           <?php endif; ?>
           <?php if (Fantom\Session::hasFlash('success')): ?>
-            <div class="col-md-6">
+            <div class="col-md-">
               <div class="card-body">
-                <div class="alert alert-danger alert-dismissible">
+                <div class="alert alert-info alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <?= Fantom\Session::flash('success') ?>
                 </div>
               </div>

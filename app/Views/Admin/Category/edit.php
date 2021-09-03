@@ -1,4 +1,4 @@
-<?php $this->use('templates/main.php',['title'=>'Ecomm | Category','mainPage'=>'Category','page'=>'Create Category'])?>
+<?php $this->use('templates/main.php',['title'=>'Ecomm | Category','mainPage'=>'Category','page'=>'Edit Category'])?>
 
 <div class="content-wrapper">
   
@@ -11,13 +11,13 @@
         	<div class="card-body">
         		<div class="row">
 		          <div class="col-sm-6">
-		            <h1>Category Create</h1>
+		            <h1>Category Edit</h1>
 		          </div>
 		          <div class="col-sm-6">
 		            <ol class="breadcrumb float-sm-right">
 		              <li class="breadcrumb-item"><a href="#">Home</a></li>
 		              <li class="breadcrumb-item active">Category</li>
-		              <li class="breadcrumb-item active">Category Create</li>
+		              <li class="breadcrumb-item active">Category Edit</li>
 		            </ol>
 		          </div>
         		</div>
@@ -39,13 +39,14 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/admin/category/store" method="POST">
+              <form action="/admin/category/<?= e($category->id) ?>/update" method="POST">
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-6">
                   		<div class="form-group">
 			                <label>Category Name<span style="color:red;">*</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Category Name" name="category">
+                      <input type="hidden" name="id" value="<?= e($category->id) ?>">
+			                <input type="text" class="form-control" placeholder="Enter Category Name" name="category" value="<?= e($category->category) ?>">
                   		</div>
    
                   	</div>

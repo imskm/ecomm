@@ -1,8 +1,9 @@
 <?php $this->use('templates/main.php',['title'=> 'Ecomm | Dashboard','mainPage'=>'Dashboard','page'=>'']); ?>
 
 <div class="content-wrapper">
+  <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
        <div class="card">
          <div class="card-body">
@@ -20,7 +21,7 @@
          </div>
        </div>
       </div><!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content-header -->
 
     <!-- Main content -->

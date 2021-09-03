@@ -15,4 +15,12 @@ class MaterialValidator extends Validator
 		]);
 	}
 
+	public function validateUpdate()
+	{
+		$id = (int) post_or_empty("id");
+		$this->validate("POST",[
+			"material" => "required|max:16|alpha_space|unique_xself:materials,material,id,".$id,
+		]);
+	}
+
 }

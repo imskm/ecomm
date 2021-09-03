@@ -107,6 +107,7 @@ class ProductController extends Controller
 		]);
 	}
 
+
 	protected function update()
 	{
 		$v = new ProductValidtor();

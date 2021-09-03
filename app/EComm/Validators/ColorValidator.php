@@ -17,4 +17,12 @@ class ColorValidator extends Validator
 		]);
 
 	}
+	public function validateUpdate()
+	{
+		$id = (int) post_or_empty("id");
+		$this->validate("POST",[
+			"color" => "required|alpha_num|max:64|unique_xself:colors,color,id,".$id,
+			"code" => "required|alpha_num|max:64|unique_xself:colors,code,id,".$id,
+		]);
+	}
 }

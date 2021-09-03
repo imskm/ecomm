@@ -1,6 +1,7 @@
 <?php $this->use('templates/main.php',['title'=>'Ecomm | Size','mainPage'=>'Size','page'=>'Size List'])?>
 
  <div class="content-wrapper">
+  <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -22,7 +23,6 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -66,7 +66,7 @@
                       <td> <?= $size->id; ?> </td>
                       <td> <?= $size->size; ?> </td>
                       <td>
-                        <a href="index"><i class="far fa-edit"></i></a>
+                        <a href="/admin/size/<?= e($size->id); ?>/edit"><i class="far fa-edit"></i></a>
                         <a href="#"><i class="far fa-trash-alt"></i></a>
                       </td>
 

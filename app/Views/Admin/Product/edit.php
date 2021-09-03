@@ -1,6 +1,9 @@
 <?php $this->use('templates/main.php',['title'=>'Ecomm | Product','mainPage'=>'Product','page'=>'Edit Product']) ?>
 
 <div class="content-wrapper">
+  
+   <?php include VIEW_PATH . '/partials/_message.php' ?>
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -23,8 +26,6 @@
       </div><!-- /.container-fluid -->
     </section>
     
-    <?php include VIEW_PATH . '/partials/_message.php' ?>
-
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">

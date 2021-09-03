@@ -2,11 +2,12 @@
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+     
     <section class="content-header">
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <div class="">
+            <div class="row">
               <div class="col-sm-6">
                 <h1>All Category List</h1>
               </div>
@@ -17,13 +18,12 @@
                   <li class="breadcrumb-item active">Category List</li>
                 </ol>
               </div>
-            </div>
+        </div>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
-
+ <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -68,7 +68,7 @@
                       <td> <?= $category->id; ?> </td>
                       <td> <?= $category->category; ?> </td>
                       <td>
-                        <a href="index"><i class="far fa-edit"></i></a>
+                        <a href="/admin/category/<?= e($category->id); ?>/edit"><i class="far fa-edit"></i></a>
                         <a href="#"><i class="far fa-trash-alt"></i></a>
                       </td>
 

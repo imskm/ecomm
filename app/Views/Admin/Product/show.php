@@ -1,6 +1,7 @@
 <?php $this->use('templates/main.php',['title'=>'Ecomm | Product','mainPage'=>'Product','page'=>'']) ?>
 
 <div class="content-wrapper">
+  <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
