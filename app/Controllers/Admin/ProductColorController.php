@@ -1,7 +1,6 @@
 <?php 
 
 namespace App\Controllers\Admin;
-use App\EComm\Repositories\ProductAvailableColorRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
@@ -10,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductAvailableColor;
 use Fantom\Controller;
 use Fantom\Session;
+use App\EComm\Repositories\ProductAvailableColorRepository;
 
 
 class ProductColorController extends Controller

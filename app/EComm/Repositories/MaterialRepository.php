@@ -2,17 +2,19 @@
 
 namespace App\EComm\Repositories;
 
+use App\Models\Material;
 use App\EComm\Traits\ModelOperationTrait;
 
 /**
  * 
  */
-class ClassName extends AnotherClass
+class MaterialRepository extends Material
 {
 	
 	protected static $_table = "materials";
 
 	use ModelOperationTrait;
+
 	public static function make(array $data)
 	{
 		$material = new self;

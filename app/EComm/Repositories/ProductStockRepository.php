@@ -2,9 +2,10 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Traits\ModelOperationTrait;
-use App\Models\ProductStock;
 use App\Models\Size;
+use App\Models\ProductStock;
+use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\SizeRepository;
 
 /**
  * 
@@ -12,7 +13,9 @@ use App\Models\Size;
 class ProductStockRepository extends ProductStock
 {
 	protected static $_table = "product_stocks";
+
 	use ModelOperationTrait;
+
 	public static function make(array $data)
 	{
 		$ps = new self;
@@ -40,7 +43,7 @@ class ProductStockRepository extends ProductStock
 	}
 	public function size()
 	{
-		return Size::find($this->size_id);
+		return SizeRepository::find($this->size_id);
 	}
 	
 }

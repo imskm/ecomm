@@ -2,8 +2,8 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Traits\ModelOperationTrait;
 use App\Models\User;
+use App\EComm\Traits\ModelOperationTrait;
 
 /**
  * 

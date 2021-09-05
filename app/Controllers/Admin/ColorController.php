@@ -1,24 +1,21 @@
 <?php 
+
 namespace App\Controllers\Admin;
 
-
-
+use Fantom\Session;
+use Fantom\Controller;
 use App\EComm\Validators\ColorValidator;
 use App\Middlewares\AdminAuthMiddleware;
-use App\Models\Color;
-use Fantom\Controller;
-use Fantom\Session;
+use App\EComm\Repositories\ColorRepository;
 
 /**
  * 
  */
 class ColorController extends Controller
-
 {
-	
 	protected function index()
 	{
-		$colors = Color::recent(get_page())->get();
+		$colors = ColorRepository::recent(get_page())->get();
 		$this->view->render('Admin/Color/index.php',[
 			"colors" =>$colors,
 		]);
@@ -33,7 +30,7 @@ class ColorController extends Controller
 	{
 		$color_id = (int) $this->route_params['id'];
 
-		$color = Color::find($color_id);
+		$color = ColorRepository::find($color_id);
 
 		if(is_null($color))
 		{
@@ -57,7 +54,7 @@ class ColorController extends Controller
 			redirect('admin/color/create');
 		}
 		// 2  Make Model 
-		$color = Color::make($_POST);
+		$color = ColorRepository::make($_POST);
 
 		// 3 
 		if($color->save() === false)
@@ -83,8 +80,8 @@ class ColorController extends Controller
 			redirect("admin/color/{$color_id}/edit");
 		}
 		
-		$color = Color::find($color_id);
-		Color::change($color,$_POST);
+		$color = ColorRepository::find($color_id);
+		ColorRepository::change($color,$_POST);
 
 		if($color->save() == false)
 		{

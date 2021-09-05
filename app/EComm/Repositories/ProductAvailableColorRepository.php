@@ -2,18 +2,19 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Traits\ModelOperationTrait;
 use App\Models\ProductAvailableColor;
+use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\ColorRepository;
 
 /**
  * 
  */
 class ProductAvailableColorRepository extends ProductAvailableColor
 {
-	
 	protected static $_table = "product_available_colors";
 
 	use ModelOperationTrait;
+
 	public static function make(array $data)
 	{
 		$product_color = new self;
@@ -41,6 +42,6 @@ class ProductAvailableColorRepository extends ProductAvailableColor
 
 	public function color()
 	{
-		return Color::find($this->color_id);
+		return ColorRepository::find($this->color_id);
 	}
 }

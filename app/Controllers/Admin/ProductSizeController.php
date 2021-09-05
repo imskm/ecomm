@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use App\EComm\Repositories\ProductAvailableSizeRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
@@ -12,6 +11,7 @@ use App\Models\Size;
 use Fantom\Controller;
 use Fantom\Log\Log;
 use Fantom\Session;
+use App\EComm\Repositories\ProductAvailableSizeRepository;
 
 /**
  * 

@@ -2,9 +2,10 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Traits\ModelOperationTrait;
-use App\Models\ProductAvailableSize;
 use App\Models\Size;
+use App\Models\ProductAvailableSize;
+use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\SizeRepository;
 
 /**
  * 
@@ -12,6 +13,7 @@ use App\Models\Size;
 class ProductAvailableSizeRepository extends ProductAvailableSize
 {
 	protected static $_table = "product_available_sizes";
+
 	use ModelOperationTrait;
 
 	public static function make(array $data)
@@ -41,6 +43,6 @@ class ProductAvailableSizeRepository extends ProductAvailableSize
 
 	public function size()
 	{
-		return Size::find($this->size_id);
+		return SizeRepository::find($this->size_id);
 	}
 }

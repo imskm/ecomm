@@ -2,17 +2,13 @@
 
 namespace App\EComm\Repositories;
 
+use App\Models\Product;
+use App\EComm\Traits\ModelOperationTrait;
 use App\EComm\Repositories\CategoryRepository;
+use App\EComm\Repositories\ProductSizeRepository;
+use App\EComm\Repositories\ProductStockRepository;
 use App\EComm\Repositories\ProductAvailableColorRepository;
 use App\EComm\Repositories\ProductAvailableSizeRepository;
-use App\EComm\Repositories\ProductStockRepository;
-use App\EComm\Traits\ModelOperationTrait;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductAvailableColor;
-use App\Models\ProductAvailableSize;
-use App\Models\ProductSize;
-use App\Models\ProductStock;
 
 /**
  * Product Repository
@@ -66,7 +62,7 @@ class ProductRepository extends Product
 				'product_id' 	=> $product_id,
 				'size_id' 		=> $size_id,
 			];
-			$product_sizes[] = ProductSize::make($ps_data);
+			$product_sizes[] = ProductSizeRepository::make($ps_data);
 		}
 
 		return $product_sizes;
