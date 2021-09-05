@@ -33,7 +33,7 @@ class ColorController extends Controller
 	{
 		$color_id = (int) $this->route_params['id'];
 
-		$color = Color::find($color_id)->first();
+		$color = Color::find($color_id);
 
 		if(is_null($color))
 		{
@@ -83,7 +83,7 @@ class ColorController extends Controller
 			redirect("admin/color/{$color_id}/edit");
 		}
 		
-		$color = Color::find($color_id)->first();
+		$color = Color::find($color_id);
 		Color::change($color,$_POST);
 
 		if($color->save() == false)

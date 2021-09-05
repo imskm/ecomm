@@ -2,8 +2,9 @@
 
 namespace App\Support\Authentication;
 
-use Fantom\Session;
+use App\EComm\Repositories\UserRepository;
 use App\Models\User;
+use Fantom\Session;
 
 /**
 * Authentication Support class
@@ -16,7 +17,7 @@ class Auth
 
 	public static function attempt($email, $password)
 	{
-		$user = User::where('email', $email)->first();
+		$user = UserRepository::where('email', $email)->first();
 		if(! $user) {
 			return false;
 		}
@@ -33,7 +34,7 @@ class Auth
 	public static function user()
 	{
 		if (! self::$user) {
-			self::$user = User::find(self::userId())->first();
+			self::$user = UserRepository::find(self::userId());
 		}
 		
 		return self::$user;
@@ -57,7 +58,7 @@ class Auth
 
 	public static function create(array $data)
 	{
-		$user = User::make($_POST);
+		$user = UserRepository::make($_POST);
 
 		return $user->save();
 	}

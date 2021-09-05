@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Admin;
 
+use App\EComm\Repositories\ProductAvailableSizeRepository;
+use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Product;
@@ -30,7 +32,7 @@ class ProductSizeController extends Controller
 			Session::flash("error", "Product Id is not found");
 			redirect("admin/product-size/index");
 		}
-		$product = Product::find($product_id)->first();
+		$product = ProductRepository::find($product_id);
 		$sizes = Size::all()->get();
 
 		$this->view->render("Admin/ProductSize/create.php",[
@@ -55,7 +57,7 @@ class ProductSizeController extends Controller
 
 		foreach ($size_ids as $size_id) 
 		{
-			$prod_size = ProductAvailableSize::make([
+			$prod_size = ProductAvailableSizeRepository::make([
 				'product_id' => $product_id,
 				'size_id' 	=> $size_id,
 			]);

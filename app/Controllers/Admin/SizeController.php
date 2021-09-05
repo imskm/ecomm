@@ -23,7 +23,7 @@ class SizeController extends Controller
 	protected function edit()
 	{
 		$size_id = (int) $this->route_params['id'];
-		$size = Size::find($size_id)->first();
+		$size = Size::find($size_id);
 
 		if(is_null($size))
 		{
@@ -81,7 +81,7 @@ class SizeController extends Controller
 			redirect("admin/size/{$size_id}/edit");
 		}
 
-		$size = Size::find($size_id)->first();
+		$size = Size::find($size_id);
 
 		Size::change($size,$_POST);
 		if($size->save()===false)

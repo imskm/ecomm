@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Controllers\Admin;
+use App\EComm\Repositories\CategoryRepository;
 use App\EComm\Validators\CategoryValidator;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Category;
@@ -15,7 +16,7 @@ class CategoryController extends Controller
 	
 	protected function index()
 	{
-		$category = Category::recent(get_page())->get();
+		$category = CategoryRepository::recent(get_page())->get();
 
 		$this->view->render("Admin/Category/index.php",[
 			"categories" => $category,
@@ -31,7 +32,7 @@ class CategoryController extends Controller
 	{
 		$category_id = (int) $this->route_params['id'];
 		
-		$category = Category::find($category_id)->first();
+		$category = CategoryRepository::find($category_id);
 		if(is_null($category))
 		{
 			Session::flash("error","Category with Id '{$category_id}' is not Found");
@@ -53,7 +54,7 @@ class CategoryController extends Controller
 			redirect("admin/category/create");
 		}
 
-		$category = Category::make($_POST);
+		$category = CategoryRepository::make($_POST);
 
 		if($category->save() === false)
 		{
@@ -76,8 +77,8 @@ class CategoryController extends Controller
 			redirect("admin/category/{$category_id}/edit");
 		}
 
-		$category = Category::find($category_id)->first();
-		Category::change($category, $_POST);
+		$category = CategoryRepository::find($category_id);
+		CategoryRepository::change($category, $_POST);
 		if($category->save() == false)
 		{
 			Session::flash("error","Failed to Update Category");

@@ -1,6 +1,8 @@
 <?php 
 
 namespace App\Controllers\Admin;
+use App\EComm\Repositories\ProductAvailableColorRepository;
+use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Color;
@@ -25,7 +27,7 @@ class ProductColorController extends Controller
 			redirect("admin/product-color/index");
 		}
 
-		$product = Product::find($product_id)->first();
+		$product = ProductRepository::find($product_id);
 		$color = Color::all()->get();
 
 		$this->view->render("Admin/ProductColor/create.php",[
@@ -50,7 +52,7 @@ class ProductColorController extends Controller
 		$product_id = $_POST['product_id'];
 		
 		foreach ($color_ids as $color_id) {
-			$prod_color = ProductAvailableColor::make([
+			$prod_color = ProductAvailableColorRepository::make([
 				'product_id' => $product_id,
 				'color_id' 	=> $color_id,
 			]);

@@ -30,7 +30,7 @@ class MaterialController extends Controller
 	protected function edit()
 	{
 		$material_id =(int) $this->route_params['id'];
-		$material = Material::find($material_id)->first();
+		$material = Material::find($material_id);
 
 		if(is_null($material))
 		{
@@ -73,7 +73,7 @@ class MaterialController extends Controller
 			redirect("admin/material/{$material_id}/edit");
 		}
 
-		$material = Material::find($material_id)->first();
+		$material = Material::find($material_id);
 		Material::change($material, $_POST);
 		if($material->save() === false)
 		{

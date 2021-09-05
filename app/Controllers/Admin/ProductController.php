@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Admin;
 
+use App\EComm\Repositories\CategoryRepository;
+use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Category;
@@ -18,7 +20,7 @@ class ProductController extends Controller
 {
 	protected function index()
 	{
-		$products = Product::recent(get_page())->get();
+		$products = ProductRepository::recent(get_page())->get();
 
 		// View
 		// foreach ($products as $p) {
@@ -40,7 +42,11 @@ class ProductController extends Controller
 			redirect("admin/product/index");
 		}
 
-		$product = Product::find($product_id)->first();
+		$product = ProductRepository::find($product_id);
+		if (is_null($product)) {
+			redirect("admin/product/index");
+		}
+
 		$product_sizes 		= $product->productSizes()->get();
 		$product_colors 	= $product->productColors()->get();
 		$product_stocks 	= $product->productStocks()->get();
@@ -55,7 +61,7 @@ class ProductController extends Controller
 
 	protected function create()
 	{
-		$categories = Category::all()->get();
+		$categories = CategoryRepository::all()->get();
 		$materials = Material::all()->get();
 
 		$this->view->render("Admin/Product/create.php", [
@@ -74,7 +80,7 @@ class ProductController extends Controller
 		}
 
 		// 2. Make product model
-		$product = Product::make($_POST);
+		$product = ProductRepository::make($_POST);
 
 		// 3. Save product
 		if ($product->save() === false) {
@@ -91,13 +97,13 @@ class ProductController extends Controller
 	{
 		$product_id = (int) $this->route_params['id'];
 
-		$product = Product::find($product_id)->first();
+		$product = ProductRepository::find($product_id);
 		if (is_null($product)) {
 			Session::flash("error", "Product with id '{$product_id}' does not exist.");
 			redirect("admin/product/index");
 		}
 
-		$categories = Category::all()->get();
+		$categories = CategoryRepository::all()->get();
 		$materials = Material::all()->get();
 
 		$this->view->render("Admin/Product/edit.php", [
@@ -117,8 +123,8 @@ class ProductController extends Controller
 			redirect("admin/product/{$product_id}/edit");
 		}
 
-		$product = Product::find($product_id)->first();
-		Product::change($product, $_POST);
+		$product = ProductRepository::find($product_id);
+		ProductRepository::change($product, $_POST);
 		if ($product->save() === false) {
 			Session::flash("error", "Failed to update product");
 			redirect("admin/product/{$product_id}/edit");

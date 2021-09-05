@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Admin;
 
+use App\EComm\Repositories\ProductRepository;
+use App\EComm\Repositories\ProductStockRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Product;
@@ -28,7 +30,7 @@ class ProductStockController extends Controller
 			redirect("admin/product-stock/index");
 		}
 
-		$product = Product::find($product_id)->first();
+		$product = ProductRepository::find($product_id);
 		$product_sizes = $product->productSizes()->get();
 
 		$this->view->render("Admin/ProductStock/create.php",[
@@ -55,7 +57,7 @@ class ProductStockController extends Controller
 		foreach ($size_ids as $i => $size_id) 
 		{
 			$stock = $stocks[$i];
-			$product_stock = ProductStock::make([
+			$product_stock = ProductStockRepository::make([
 				"product_id" => $product_id,
 				"size_id" => $size_id,
 				"stock" => $stock,
