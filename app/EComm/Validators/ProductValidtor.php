@@ -87,6 +87,14 @@ class ProductValidtor extends Validator
 		]);
 	}
 
+	public function validateImageUpdate()
+	{
+		$this->validate("POST", [
+			"id" 			=> "required|numeric|exist:product_images,id",
+			"photo"			=> "xrequired_file|xfile:image,204800"
+		]);
+	}
+
 	protected function required_array_rule($field, $data)
 	{
 		if (is_array($data) === false) {

@@ -1,0 +1,398 @@
+From bf123769e18c7d8f54ec7b2d6d1356c6a8ab568b Mon Sep 17 00:00:00 2001
+From: Shek Muktar <im.skm07@gmail.com>
+Date: Sun, 5 Sep 2021 19:02:37 +0530
+Subject: [PATCH] Fixed crash bug
+
+File name was wrong that was causing class not found fatal error
+---
+ app/Controllers/Admin/ColorController.php     | 23 ++++++++-----------
+ .../Admin/ProductColorController.php          |  4 ++--
+ .../Admin/ProductSizeController.php           |  4 ++--
+ app/EComm/Repositories/ColorRepository.php    | 17 +++-----------
+ app/EComm/Repositories/MaterialRepository.php |  6 +++--
+ ...hp => ProductAvailableColorRepository.php} |  9 ++++----
+ ...php => ProductAvailableSizeRepository.php} | 10 ++++----
+ app/EComm/Repositories/ProductRepository.php  | 16 +++++--------
+ .../Repositories/ProductStockRepository.php   | 11 +++++----
+ app/EComm/Repositories/UserRepository.php     |  4 ++--
+ 10 files changed, 47 insertions(+), 57 deletions(-)
+ rename app/EComm/Repositories/{ProductAvailabeColorRepository.php => ProductAvailableColorRepository.php} (91%)
+ rename app/EComm/Repositories/{ProductAvailabeSizeRepository.php => ProductAvailableSizeRepository.php} (91%)
+
+diff --git a/app/Controllers/Admin/ColorController.php b/app/Controllers/Admin/ColorController.php
+index 38360ed..6a8e518 100644
+--- a/app/Controllers/Admin/ColorController.php
++++ b/app/Controllers/Admin/ColorController.php
+@@ -1,24 +1,21 @@
+ <?php 
+-namespace App\Controllers\Admin;
+-
+ 
++namespace App\Controllers\Admin;
+ 
++use Fantom\Session;
++use Fantom\Controller;
+ use App\EComm\Validators\ColorValidator;
+ use App\Middlewares\AdminAuthMiddleware;
+-use App\Models\Color;
+-use Fantom\Controller;
+-use Fantom\Session;
++use App\EComm\Repositories\ColorRepository;
+ 
+ /**
+  * 
+  */
+ class ColorController extends Controller
+-
+ {
+-	
+ 	protected function index()
+ 	{
+-		$colors = Color::recent(get_page())->get();
++		$colors = ColorRepository::recent(get_page())->get();
+ 		$this->view->render('Admin/Color/index.php',[
+ 			"colors" =>$colors,
+ 		]);
+@@ -33,7 +30,7 @@ class ColorController extends Controller
+ 	{
+ 		$color_id = (int) $this->route_params['id'];
+ 
+-		$color = Color::find($color_id);
++		$color = ColorRepository::find($color_id);
+ 
+ 		if(is_null($color))
+ 		{
+@@ -57,7 +54,7 @@ class ColorController extends Controller
+ 			redirect('admin/color/create');
+ 		}
+ 		// 2  Make Model 
+-		$color = Color::make($_POST);
++		$color = ColorRepository::make($_POST);
+ 
+ 		// 3 
+ 		if($color->save() === false)
+@@ -83,8 +80,8 @@ class ColorController extends Controller
+ 			redirect("admin/color/{$color_id}/edit");
+ 		}
+ 		
+-		$color = Color::find($color_id);
+-		Color::change($color,$_POST);
++		$color = ColorRepository::find($color_id);
++		ColorRepository::change($color,$_POST);
+ 
+ 		if($color->save() == false)
+ 		{
+@@ -100,4 +97,4 @@ class ColorController extends Controller
+ 	{
+ 		return (new AdminAuthMiddleware)();
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/Controllers/Admin/ProductColorController.php b/app/Controllers/Admin/ProductColorController.php
+index 95159d1..58e7116 100755
+--- a/app/Controllers/Admin/ProductColorController.php
++++ b/app/Controllers/Admin/ProductColorController.php
+@@ -1,7 +1,6 @@
+ <?php 
+ 
+ namespace App\Controllers\Admin;
+-use App\EComm\Repositories\ProductAvailableColorRepository;
+ use App\EComm\Repositories\ProductRepository;
+ use App\EComm\Validators\ProductValidtor;
+ use App\Middlewares\AdminAuthMiddleware;
+@@ -10,6 +9,7 @@ use App\Models\Product;
+ use App\Models\ProductAvailableColor;
+ use Fantom\Controller;
+ use Fantom\Session;
++use App\EComm\Repositories\ProductAvailableColorRepository;
+ 
+ 
+ class ProductColorController extends Controller
+@@ -70,4 +70,4 @@ class ProductColorController extends Controller
+ 	{
+ 		return (new AdminAuthMiddleware)();
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/Controllers/Admin/ProductSizeController.php b/app/Controllers/Admin/ProductSizeController.php
+index 0e7e578..b150bfb 100755
+--- a/app/Controllers/Admin/ProductSizeController.php
++++ b/app/Controllers/Admin/ProductSizeController.php
+@@ -2,7 +2,6 @@
+ 
+ namespace App\Controllers\Admin;
+ 
+-use App\EComm\Repositories\ProductAvailableSizeRepository;
+ use App\EComm\Repositories\ProductRepository;
+ use App\EComm\Validators\ProductValidtor;
+ use App\Middlewares\AdminAuthMiddleware;
+@@ -12,6 +11,7 @@ use App\Models\Size;
+ use Fantom\Controller;
+ use Fantom\Log\Log;
+ use Fantom\Session;
++use App\EComm\Repositories\ProductAvailableSizeRepository;
+ 
+ /**
+  * 
+@@ -82,4 +82,4 @@ protected function before()
+ 		return (new AdminAuthMiddleware)();
+ 		
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/ColorRepository.php b/app/EComm/Repositories/ColorRepository.php
+index adc4d41..18b1b5b 100644
+--- a/app/EComm/Repositories/ColorRepository.php
++++ b/app/EComm/Repositories/ColorRepository.php
+@@ -2,6 +2,7 @@
+ 
+ namespace App\EComm\Repositories;
+ 
++use App\Models\Color;
+ use App\EComm\Traits\ModelOperationTrait;
+ 
+ /**
+@@ -10,6 +11,7 @@ use App\EComm\Traits\ModelOperationTrait;
+ class ColorRepository extends Color
+ {
+ 	protected static $_table = "colors";
++
+ 	use ModelOperationTrait;
+ 
+ 	public static function make(array $data)
+@@ -31,17 +33,4 @@ class ColorRepository extends Color
+ 		$color->color = title_case($data['color']);
+ 		$color->code = $data['code'];
+ 	}
+-
+-	public static function recent( $page = 1, $items = 20)
+-	{
+-		$offset = calc_page_offset($page , $items);
+-
+-		$sql = "
+-				SELECT *
+-				FROM colors 
+-				ORDER BY id DESC 
+-				LIMIT {$items} OFFSET {$offset}
+-				";
+-		return static::raw($sql);
+-	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/MaterialRepository.php b/app/EComm/Repositories/MaterialRepository.php
+index 1a4d5cf..2394e06 100644
+--- a/app/EComm/Repositories/MaterialRepository.php
++++ b/app/EComm/Repositories/MaterialRepository.php
+@@ -2,17 +2,19 @@
+ 
+ namespace App\EComm\Repositories;
+ 
++use App\Models\Material;
+ use App\EComm\Traits\ModelOperationTrait;
+ 
+ /**
+  * 
+  */
+-class ClassName extends AnotherClass
++class MaterialRepository extends Material
+ {
+ 	
+ 	protected static $_table = "materials";
+ 
+ 	use ModelOperationTrait;
++
+ 	public static function make(array $data)
+ 	{
+ 		$material = new self;
+@@ -32,4 +34,4 @@ class ClassName extends AnotherClass
+ 	{
+ 		$material->material = title_case($data['material']);
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/ProductAvailabeColorRepository.php b/app/EComm/Repositories/ProductAvailableColorRepository.php
+similarity index 91%
+rename from app/EComm/Repositories/ProductAvailabeColorRepository.php
+rename to app/EComm/Repositories/ProductAvailableColorRepository.php
+index b5f0620..d9a5eef 100644
+--- a/app/EComm/Repositories/ProductAvailabeColorRepository.php
++++ b/app/EComm/Repositories/ProductAvailableColorRepository.php
+@@ -2,18 +2,19 @@
+ 
+ namespace App\EComm\Repositories;
+ 
+-use App\EComm\Traits\ModelOperationTrait;
+ use App\Models\ProductAvailableColor;
++use App\EComm\Traits\ModelOperationTrait;
++use App\EComm\Repositories\ColorRepository;
+ 
+ /**
+  * 
+  */
+ class ProductAvailableColorRepository extends ProductAvailableColor
+ {
+-	
+ 	protected static $_table = "product_available_colors";
+ 
+ 	use ModelOperationTrait;
++
+ 	public static function make(array $data)
+ 	{
+ 		$product_color = new self;
+@@ -41,6 +42,6 @@ class ProductAvailableColorRepository extends ProductAvailableColor
+ 
+ 	public function color()
+ 	{
+-		return Color::find($this->color_id);
++		return ColorRepository::find($this->color_id);
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/ProductAvailabeSizeRepository.php b/app/EComm/Repositories/ProductAvailableSizeRepository.php
+similarity index 91%
+rename from app/EComm/Repositories/ProductAvailabeSizeRepository.php
+rename to app/EComm/Repositories/ProductAvailableSizeRepository.php
+index 029647e..d293d4f 100644
+--- a/app/EComm/Repositories/ProductAvailabeSizeRepository.php
++++ b/app/EComm/Repositories/ProductAvailableSizeRepository.php
+@@ -2,9 +2,10 @@
+ 
+ namespace App\EComm\Repositories;
+ 
+-use App\EComm\Traits\ModelOperationTrait;
+-use App\Models\ProductAvailableSize;
+ use App\Models\Size;
++use App\Models\ProductAvailableSize;
++use App\EComm\Traits\ModelOperationTrait;
++use App\EComm\Repositories\SizeRepository;
+ 
+ /**
+  * 
+@@ -12,6 +13,7 @@ use App\Models\Size;
+ class ProductAvailableSizeRepository extends ProductAvailableSize
+ {
+ 	protected static $_table = "product_available_sizes";
++
+ 	use ModelOperationTrait;
+ 
+ 	public static function make(array $data)
+@@ -41,6 +43,6 @@ class ProductAvailableSizeRepository extends ProductAvailableSize
+ 
+ 	public function size()
+ 	{
+-		return Size::find($this->size_id);
++		return SizeRepository::find($this->size_id);
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/ProductRepository.php b/app/EComm/Repositories/ProductRepository.php
+index c5e9acc..c1c9169 100644
+--- a/app/EComm/Repositories/ProductRepository.php
++++ b/app/EComm/Repositories/ProductRepository.php
+@@ -2,17 +2,13 @@
+ 
+ namespace App\EComm\Repositories;
+ 
++use App\Models\Product;
++use App\EComm\Traits\ModelOperationTrait;
+ use App\EComm\Repositories\CategoryRepository;
++use App\EComm\Repositories\ProductSizeRepository;
++use App\EComm\Repositories\ProductStockRepository;
+ use App\EComm\Repositories\ProductAvailableColorRepository;
+ use App\EComm\Repositories\ProductAvailableSizeRepository;
+-use App\EComm\Repositories\ProductStockRepository;
+-use App\EComm\Traits\ModelOperationTrait;
+-use App\Models\Category;
+-use App\Models\Product;
+-use App\Models\ProductAvailableColor;
+-use App\Models\ProductAvailableSize;
+-use App\Models\ProductSize;
+-use App\Models\ProductStock;
+ 
+ /**
+  * Product Repository
+@@ -66,7 +62,7 @@ class ProductRepository extends Product
+ 				'product_id' 	=> $product_id,
+ 				'size_id' 		=> $size_id,
+ 			];
+-			$product_sizes[] = ProductSize::make($ps_data);
++			$product_sizes[] = ProductSizeRepository::make($ps_data);
+ 		}
+ 
+ 		return $product_sizes;
+@@ -92,4 +88,4 @@ class ProductRepository extends Product
+ 	{
+ 		return ProductStockRepository::byProductId($this->id);
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/ProductStockRepository.php b/app/EComm/Repositories/ProductStockRepository.php
+index b203f64..89e8bde 100644
+--- a/app/EComm/Repositories/ProductStockRepository.php
++++ b/app/EComm/Repositories/ProductStockRepository.php
+@@ -2,9 +2,10 @@
+ 
+ namespace App\EComm\Repositories;
+ 
+-use App\EComm\Traits\ModelOperationTrait;
+-use App\Models\ProductStock;
+ use App\Models\Size;
++use App\Models\ProductStock;
++use App\EComm\Traits\ModelOperationTrait;
++use App\EComm\Repositories\SizeRepository;
+ 
+ /**
+  * 
+@@ -12,7 +13,9 @@ use App\Models\Size;
+ class ProductStockRepository extends ProductStock
+ {
+ 	protected static $_table = "product_stocks";
++
+ 	use ModelOperationTrait;
++
+ 	public static function make(array $data)
+ 	{
+ 		$ps = new self;
+@@ -40,7 +43,7 @@ class ProductStockRepository extends ProductStock
+ 	}
+ 	public function size()
+ 	{
+-		return Size::find($this->size_id);
++		return SizeRepository::find($this->size_id);
+ 	}
+ 	
+-}
+\ No newline at end of file
++}
+diff --git a/app/EComm/Repositories/UserRepository.php b/app/EComm/Repositories/UserRepository.php
+index 13be4d6..1676264 100644
+--- a/app/EComm/Repositories/UserRepository.php
++++ b/app/EComm/Repositories/UserRepository.php
+@@ -2,8 +2,8 @@
+ 
+ namespace App\EComm\Repositories;
+ 
+-use App\EComm\Traits\ModelOperationTrait;
+ use App\Models\User;
++use App\EComm\Traits\ModelOperationTrait;
+ 
+ /**
+  * 
+@@ -40,4 +40,4 @@ class UserRepository extends User
+ 		$user->password 	= password_hash(trim($data['password']), PASSWORD_DEFAULT);
+ 		$user->role 		= 2;
+ 	}
+-}
+\ No newline at end of file
++}
+-- 
+2.25.1
+

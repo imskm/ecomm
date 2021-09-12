@@ -1,5 +1,6 @@
 <?php 
 namespace App\Controllers\Admin;
+use App\EComm\Repositories\SizeRepository;
 use App\EComm\Validators\SizeValidator;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Size;
@@ -13,7 +14,7 @@ class SizeController extends Controller
 {
 	protected function index()
 	{
-		$sizes = Size::recent(get_page())->get();
+		$sizes = SizeRepository::recent(get_page())->get();
 
 		$this->view->render("Admin/Size/index.php",[
 			"sizes" => $sizes,
@@ -23,7 +24,7 @@ class SizeController extends Controller
 	protected function edit()
 	{
 		$size_id = (int) $this->route_params['id'];
-		$size = Size::find($size_id);
+		$size = SizeRepository::find($size_id);
 
 		if(is_null($size))
 		{
@@ -54,7 +55,7 @@ class SizeController extends Controller
 
 		// 2. Make Size Model
 
-		$size = Size::make($_POST);
+		$size = SizeRepository::make($_POST);
 
 		// Save the data to the database
 
@@ -81,7 +82,7 @@ class SizeController extends Controller
 			redirect("admin/size/{$size_id}/edit");
 		}
 
-		$size = Size::find($size_id);
+		$size = SizeRepository::find($size_id);
 
 		Size::change($size,$_POST);
 		if($size->save()===false)

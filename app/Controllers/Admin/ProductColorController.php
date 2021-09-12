@@ -1,6 +1,9 @@
 <?php 
 
 namespace App\Controllers\Admin;
+use App\Config;
+use App\EComm\Repositories\ProductAvailableColorRepository;
+use App\EComm\Repositories\ProductImageRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
@@ -9,7 +12,6 @@ use App\Models\Product;
 use App\Models\ProductAvailableColor;
 use Fantom\Controller;
 use Fantom\Session;
-use App\EComm\Repositories\ProductAvailableColorRepository;
 
 
 class ProductColorController extends Controller
@@ -59,6 +61,20 @@ class ProductColorController extends Controller
 			if ($prod_color->save() === false) {
 				Session::flash("error", "Failed to attach color");
 				redirect("admin/product-color/create");
+			}
+		}
+
+		// Create default create
+		$default_image = Config::get("default_image");
+		foreach ($color_ids as $color_id) {
+			for ($i = 0; $i < 5; ++$i) {
+				$pi = ProductImageRepository::make([
+					"product_id" 	=> $product_id,
+					"color_id" 		=> $color_id,
+					"image" 		=> $default_image,
+				]);
+
+				$pi->save();
 			}
 		}
 
