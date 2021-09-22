@@ -73,7 +73,6 @@ class ProductColorController extends Controller
 					"color_id" 		=> $color_id,
 					"image" 		=> $default_image,
 				]);
-
 				$pi->save();
 			}
 		}

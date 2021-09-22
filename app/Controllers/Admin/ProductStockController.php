@@ -70,7 +70,8 @@ class ProductStockController extends Controller
 		}
 
 		Session::flash("success","Stock Added Successfull");
-		redirect("admin/product/{$product_id}/show");
+		//redirect("admin/product/{$product_id}/show");
+		redirect("admin/product-image/{$product_id}/index");
 		
 
 

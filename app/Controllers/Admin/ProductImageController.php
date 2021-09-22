@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Controllers\Admin;
-
+use App\EComm\Repositories\ProductAvailableColorRepository;
 use App\EComm\Repositories\ProductImageRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
 use App\Models\Product;
 use App\Support\ImageUploader;
+use App\Support\Response;
 use Fantom\Controller;
 use Fantom\Log\Log;
 use Fantom\Session;
-
 /**
  * 
  */
@@ -19,32 +18,76 @@ class ProductImageController extends Controller
 	protected function index()
 	{
 		$product_id = (int) $this->route_params['id'];
-		$product_images = ProductImageRepository::byProductId($product_id)->get();
-		// @TODO
+		$available_colors = ProductAvailableColorRepository::byProductId($product_id)->get();
+
+		/*echo "<pre>";
+			print_r($available_colors);
+			exit;*/
+		$result = [];
+		// [
+		//		[color_id] => [
+		// 			["images"] => [
+		//				[product_image],
+		//				[product_image],
+		//				[product_image],
+		//				[product_image],
+		//				[product_image],
+		// 			],
+		// 			["color"] => [avail_color]
+		//		]
+		//		[color_id] => [
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//		]
+		//		[color_id] => [
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//			[product_image],
+		//		]
+		// ]
+		// Iterate over $avialable_colors and fetch images of each color
+		foreach ($available_colors as $avail_color) {
+
+			/*echo "<pre>";
+			print_r($avail_color);
+			exit;*/
+			$images = ProductImageRepository::byProductColorId($product_id, $avail_color->color_id)->get();
+			/*echo "<pre>";
+			print_r($images);
+			exit;*/
+			$result[$avail_color->color_id]["images"] = $images;
+			$result[$avail_color->color_id]["color"] = $avail_color->color();
+
+		}
 
 		$this->view->render('Admin/ProductImage/index.php', [
-			"product_images" => $product_images,
+			"product_images" => $result,
 		]);	
 	}
 
 	protected function update()
 	{
+		$res = new Response();
+
 		// 1. Validation
 		$v = new ProductValidtor();
 		$v->validateImageUpdate();
 		if ($v->hasError()) {
-			// 
-			echo "failed";
-			return;
+			$res->setErrors($v->validationErrors()->all());
+			return $res->send();
 		}
 
 		// 2. Upload image
 		$destination = ROOT . '/public/uploads';
 		$image = new ImageUploader($destination);
 		if ($image->save('photo') === false) {
-			Session::flash("error", "Failed to upload image");
-			// 
-			redirect("admin/product-image/create");
+			$res->setErrors(["photo" => "Failed to save image"]);
+			return $res->send();
 		}
 		$image_name = $image->getSavedFileNames()[0];
 
@@ -59,16 +102,14 @@ class ProductImageController extends Controller
 
 		// 4. Save
 		if ($product_image->save() === false) {
-			Session::flash("error", "Failed to save product image record in db");
-			redirect("admin/product-image/create");
+			$res->setErrors(["photo" => "Failed to save product image record in db"]);
+			return $res->send();
 		}
 
 		// @TODO Delete the old image from Disk
 
 		// 5. Success message and redirect to index
-		Session::flash("success", "Product image saved successfully");
-		redirect("admin/product/index");
-		echo "success";
+		return $res->send();
 	}
 
 	protected function store()

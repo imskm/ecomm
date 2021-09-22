@@ -35,8 +35,10 @@ class ProductImageRepository extends ProductImage
 		$pi->image = $data['image'];
 	}
 
-	public static function byProductId($product_id)
+	public static function byProductColorId($product_id, $color_id)
 	{
-		return static::where("product_id", (int) $product_id);
+		return static::where("product_id", (int) $product_id)
+									->andWhere("color_id",(int) $color_id);
 	}
+
 }

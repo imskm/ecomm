@@ -9,13 +9,13 @@
         	<div class="card-body">
         		<div class="row">
 		          <div class="col-sm-6">
-		            <h1>Product Color Create</h1>
+		            <h1>Product Image Create</h1>
 		          </div>
 		          <div class="col-sm-6">
 		            <ol class="breadcrumb float-sm-right">
 		              <li class="breadcrumb-item"><a href="#">Home</a></li>
 		              <li class="breadcrumb-item active">Products</li>
-		              <li class="breadcrumb-item active">Product Color Create</li>
+		              <li class="breadcrumb-item active">Product Image Create</li>
 		            </ol>
 		          </div>
         		</div>
@@ -39,10 +39,17 @@
               <!-- /.card-header -->
               <!-- form start -->
               <form action="/admin/product-image/update" method="post">
-                <?php foreach($product_images as $pi): ?>
-                  <input @change="fileSelected" type="file" name="photo[]" id="">
-                  <button type="button" @click="uploadImage(<?= $pi->id ?>)">Upload</button>
-                <?php endforeach; ?>
+                <?php foreach($product_images as $pimages): ?>
+
+                  <p><?= e($pimages["color"]->color) ?></p>
+
+                  <p v-if="errors.photo">{{ errors.photo }}</p>
+                  
+                  <?php foreach ($pimages["images"] as $pi): ?>
+                    <input @change="fileSelected" type="file" name="photo[]" id="">
+                    <button type="button" @click="uploadImage(<?= $pi->id ?>)">Upload</button>
+                  <?php endforeach; ?>
+                  <?php endforeach; ?>
               </form>
             </div>
          </div>
@@ -58,6 +65,7 @@ const app = new Vue({
   el: "#app",
   data: {
     file: null,
+    errors: {},
   },
 
   methods: {
@@ -69,7 +77,14 @@ const app = new Vue({
 
       axios.post(url, form)
       .then((response) => {
-        console.log(response);
+        const res = response.data;
+
+        console.log(response.data);
+        if (res.status == "error") {
+          console.log(res.errors);
+          this.errors = res.errors;
+        }
+
       }).catch((error) => {
         console.log(error);
       });
