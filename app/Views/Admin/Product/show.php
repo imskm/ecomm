@@ -139,6 +139,36 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <?php foreach($product_images as $pimages): ?>
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><?= e($pimages["color"]->color) ?></h3>
+              </div>
+            <!-- /.card-header -->
+            <!-- /.card-body -->
+              <div class="card-footer bg-white">
+                <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                  <?php foreach ($pimages["images"] as $pi): ?>
+
+                  <li>
+                    <span class="mailbox-attachment-icon has-img"><img src="/uploads/<?= $pi->image ?>" alt="Attachment"></span>
+                    <div class="mailbox-attachment-info">
+                          <span class="mailbox-attachment-size clearfix mt-1">
+                            <span></span>
+                            
+                          </span>
+                    </div>
+                  </li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+            </div>
+          <!-- /.card -->
+          </div>
+          <?php endforeach; ?>
+        </div>
       </div>
     </section>
 </div>

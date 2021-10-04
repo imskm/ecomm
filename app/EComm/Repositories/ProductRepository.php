@@ -88,4 +88,10 @@ class ProductRepository extends Product
 	{
 		return ProductStockRepository::byProductId($this->id);
 	}
+
+
+	public function productImages()
+	{
+		return ProductImageRepository::byProductId($this->id);
+	}
 }

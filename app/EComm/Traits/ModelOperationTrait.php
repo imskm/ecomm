@@ -4,6 +4,14 @@ namespace App\EComm\Traits;
 
 trait ModelOperationTrait
 {
+	public function thisId()
+	{
+		if ($this->lastId()) {
+			return $this->lastId();
+		}
+
+		return $this->id;
+	}
 	public static function find($id)
 	{
 		if (is_null($model = parent::find((int) $id))) {

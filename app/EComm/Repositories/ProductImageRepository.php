@@ -41,4 +41,9 @@ class ProductImageRepository extends ProductImage
 									->andWhere("color_id",(int) $color_id);
 	}
 
+	public static function byProductId($product_id)
+	{
+		return static::where("product_id", (int) $product_id);
+	}
+
 }

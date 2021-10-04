@@ -23,7 +23,6 @@
        </div>
       </div><!-- /.container-fluid -->
     </section>
-    
 
 <!-- Main content -->
     <section class="content">
@@ -34,25 +33,43 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-              	<a href="/admin/product/index" class="btn btn-secondary float-right">View All Products</a>
+              	<a href="/admin/product/index"><button type="button" class="btn btn-secondary">View All Products</button></a>
+                <a href="/admin/product/<?= e($product_id) ?>/show"><button type="button" class="btn btn-info">Product Details</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/admin/product-image/update" method="post">
-                <?php foreach($product_images as $pimages): ?>
-
-                  <p><?= e($pimages["color"]->color) ?></p>
-
-                  <p v-if="errors.photo">{{ errors.photo }}</p>
-                  
-                  <?php foreach ($pimages["images"] as $pi): ?>
-                    <input @change="fileSelected" type="file" name="photo[]" id="">
-                    <button type="button" @click="uploadImage(<?= $pi->id ?>)">Upload</button>
-                  <?php endforeach; ?>
-                  <?php endforeach; ?>
-              </form>
             </div>
          </div>
+         <form action="/admin/product-image/update" method="post">
+          <?php foreach($product_images as $pimages): ?>
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title"><?= e($pimages["color"]->color) ?></h3>
+              </div>
+            <!-- /.card-header -->
+            <!-- /.card-body -->
+              <div class="card-footer bg-white">
+                <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                  <?php foreach ($pimages["images"] as $pi): ?>
+
+                  <li>
+                    <span class="mailbox-attachment-icon has-img"><img src="/uploads/<?= $pi->image ?>" alt="Attachment"></span>
+                    <div class="mailbox-attachment-info">
+                          <span class="mailbox-attachment-size clearfix mt-1">
+                            <span><input @change="fileSelected" type="file" name="photo[]" id=""></span>
+                            <button type="button" class="btn btn-primary" @click="uploadImage(<?= $pi->id ?>)">Upload</button>
+                          </span>
+                    </div>
+                  </li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+            </div>
+          <!-- /.card -->
+          </div>
+          <?php endforeach; ?>
+         </form>
        	</div>
       </div>
   	</section>

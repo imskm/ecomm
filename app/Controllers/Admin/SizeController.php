@@ -84,7 +84,7 @@ class SizeController extends Controller
 
 		$size = SizeRepository::find($size_id);
 
-		Size::change($size,$_POST);
+		SizeRepository::change($size,$_POST);
 		if($size->save()===false)
 		{
 			Session::flash("error","Failed to Update size");

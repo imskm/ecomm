@@ -307,27 +307,3 @@
 <script src="/assets/js/pages/dashboard.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
- <?php //$this->use('templates/base.php', ['title' => 'Home | Admin']) ?>
-
-<!-- <section class="section">
-	<div class="cotainer">
-		<div class="columns is-centered">
-			<div class="column is-6">
-				<div class="box">
-					<h1>Welcome to Admin  Dashboard</h1>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->

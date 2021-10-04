@@ -35,20 +35,6 @@ class ProductImageController extends Controller
 		// 			],
 		// 			["color"] => [avail_color]
 		//		]
-		//		[color_id] => [
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//		]
-		//		[color_id] => [
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//			[product_image],
-		//		]
 		// ]
 		// Iterate over $avialable_colors and fetch images of each color
 		foreach ($available_colors as $avail_color) {
@@ -65,7 +51,12 @@ class ProductImageController extends Controller
 
 		}
 
+		// echo "<pre>";
+		// print_r($result);
+		// exit;
+
 		$this->view->render('Admin/ProductImage/index.php', [
+			"product_id" => $product_id,
 			"product_images" => $result,
 		]);	
 	}
@@ -94,6 +85,7 @@ class ProductImageController extends Controller
 		// 3. Make Model
 		$id = (int) $_POST['id'];
 		$product_image = ProductImageRepository::find($id);
+		$old_product_image = $product_image->image;
 		ProductImageRepository::change($product_image, [
 			"product_id" => $product_image->product_id,
 			"color_id" => $product_image->color_id,
@@ -107,6 +99,10 @@ class ProductImageController extends Controller
 		}
 
 		// @TODO Delete the old image from Disk
+		$deletable_file = $destination . "/{$old_product_image}";
+		if ($old_product_image) {
+			unlink($deletable_file);
+		}
 
 		// 5. Success message and redirect to index
 		return $res->send();

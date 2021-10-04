@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\EComm\Repositories\CategoryRepository;
+use App\EComm\Repositories\ProductImageRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Validators\ProductValidtor;
 use App\Middlewares\AdminAuthMiddleware;
@@ -21,14 +22,6 @@ class ProductController extends Controller
 	protected function index()
 	{
 		$products = ProductRepository::recent(get_page())->get();
-
-		// View
-		// foreach ($products as $p) {
-		// 	$available_sizes = $p->productSizes()->get();
-		// 	$available_colors = $p->productColors()->get();
-		// 	$product_stocks = $p->productStocks()->get();
-		// }
-
 		 $this->view->render("Admin/Product/index.php", [
 		 	"products" => $products,
 		 ]);
@@ -51,11 +44,19 @@ class ProductController extends Controller
 		$product_colors 	= $product->productColors()->get();
 		$product_stocks 	= $product->productStocks()->get();
 
+		$result =[];
+		foreach($product_colors as $product_color)
+		{
+			$images = ProductImageRepository::byProductColorId($product_id,$product_color->color_id)->get();
+			$result[$product_color->color_id]["images"] = $images;
+			$result[$product_color->color_id]["color"] = $product_color->color();
+		}
 		$this->view->render("Admin/Product/show.php",[
 			"product" 			=> $product,
 			"product_sizes" 	=> $product_sizes,
 			"product_colors" 	=> $product_colors,
 			"product_stocks" 	=> $product_stocks,
+			"product_images" => $result,
 		]);
 	}
 

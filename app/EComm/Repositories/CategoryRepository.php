@@ -10,6 +10,7 @@ use App\Models\Category;
  */
 class CategoryRepository extends Category
 {
+	protected static $_table = "product_categories";
 	use ModelOperationTrait;
 	public static function make(array $data)
 	{
