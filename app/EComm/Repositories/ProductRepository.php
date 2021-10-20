@@ -90,8 +90,8 @@ class ProductRepository extends Product
 	}
 
 
-	public function productImages()
+	public function productImages($color_id = null)
 	{
-		return ProductImageRepository::byProductId($this->id);
+		return ProductImageRepository::byProductColorId($this->id, $color_id);
 	}
 }

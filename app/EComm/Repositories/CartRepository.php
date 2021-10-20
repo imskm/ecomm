@@ -41,9 +41,10 @@ class CartRepository extends Cart
 
 	public function removeItem($cart_id)
 	{
-		$cart_item::CartItemRepository::delete([
-			"cart_id" => $this->thisId();
+		$cart_item = CartItemRepository::delete([
+			"cart_id" => $this->thisId(),
 		]);
+		return $cart_item;
 	}
 
 	public static function byUserId($user_id)

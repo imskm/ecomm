@@ -15,43 +15,8 @@ class HomeController extends Controller
 	public function index()
 	{
 		$products = ProductRepository::recent(get_page())->get();
-		$this->view->render('welcome.php',[
+		$this->view->render('Home/index.php',[
 		 	"products" => $products,
 		 ]);
 	}
-
-	public function show()
-	{
-		$product_id = (int) $this->route_params['id'];
-		if(empty($product_id))
-		{
-			Session::flash("error", "Product is not found");
-			redirect("home/index");
-		}
-		
-		$product = ProductRepository::find($product_id);
-		if(is_null($product))
-		{
-			redirect("home/index");
-		}
-
-		$product_sizes = $product->productSizes()->get();
-		$product_colors = $product->productColors()->get();
-
-		$result = [];
-		foreach($product_colors as $product_color)
-		{
-			$images = ProductImageRepository::byProductColorId($product_id,$product_color->color_id)->get();
-			$result[$product_color->color_id]["images"] = $images;
-			$result[$product_color->color_id]["color"] = $product_color->color();
-		}
-		
-		$this->view->render("show.php",[
-			"product" 			=> $product,
-			"product_sizes" 	=> $product_sizes,
-			"product_colors" 	=> $product_colors,
-			"product_images" => $result,
-		]);
-	}
-
 }

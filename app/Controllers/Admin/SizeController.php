@@ -75,8 +75,6 @@ class SizeController extends Controller
 		$v->validateUpdate();
 		$size_id = (int) post_or_empty("id");
 
-		
-
 		if($v->hasError())
 		{
 			redirect("admin/size/{$size_id}/edit");
