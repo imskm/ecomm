@@ -51,4 +51,9 @@ class CartRepository extends Cart
 	{
 		return CartRepository::where("user_id", $user_id);
 	}
+
+	public function items()
+	{
+		return CartItemRepository::where('cart_id', $this->id)->get();
+	}
 }

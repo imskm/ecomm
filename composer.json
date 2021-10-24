@@ -10,7 +10,8 @@
 	],
 	"require": {
 		"php": ">=7.0",
-		"imskm/fantom": "dev-development"
+		"imskm/fantom": "dev-development",
+		"phpunit/phpunit": "^9.5"
 	},
 	"repositories": [
 		{
@@ -18,8 +19,6 @@
 			"url": "https://github.com/imskm/fantom"
 		}
 	],
-	"require-dev": {
-	},
 	"autoload": {
 		"psr-4": {
 			"App\\": "app/"

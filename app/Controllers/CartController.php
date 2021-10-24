@@ -2,10 +2,15 @@
 
 namespace App\Controllers;
 
+use App\EComm\Repositories\CartItemRepository;
 use App\EComm\Repositories\CartRepository;
+use App\EComm\Repositories\ColorRepository;
+use App\EComm\Repositories\ProductRepository;
+use App\EComm\Repositories\SizeRepository;
 use App\Middlewares\UserAuthMiddleware;
 use App\Support\Authentication\Auth;
 use Fantom\Controller;
+use Fantom\Session;
 
 /**
  * 
@@ -33,6 +38,43 @@ class CartController extends Controller
 		}
 		$cart_item = $cart->addItem($qty, $product_id, $size_id, $color_id);
 		$cart_item->save();
+		Session::flash("success", "Your Product is added to cart successfully ");
+		redirect('cart/checkout');
+	}
+
+	protected function checkout()
+	{
+		$cart = CartRepository::byUserId(Auth::userId())->first();
+		$cart_items = $cart->items();
+		$result = [];
+
+		foreach ($cart_items as $ci) {
+			$product = ProductRepository::find($ci->product_id);
+			$color = ColorRepository::find($ci->color_id);
+			$size = SizeRepository::find($ci->size_id);
+			$qty = $ci->qty;
+
+			$result[] = (object) [
+				'cart_item'	=> $ci,
+				'product' 	=> $product,
+				'color' 	=> $color,
+				'size' 		=> $size,
+				'qty' 		=> $qty,
+			];
+
+		}
+		return $this->view->render("Cart/checkout.php", [
+			'items' => $result,
+		]);
+	}
+
+	protected function removeProduct()
+	{
+		$cartItem_id= $this->route_params['id'];
+		$product_remove = CartItemRepository::find($cartItem_id);
+		$product_remove->delete();
+		Session::flash('success','Product Removed Successfully');
+		redirect('/cart/checkout');
 	}
 
 	protected function before()

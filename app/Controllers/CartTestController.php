@@ -35,10 +35,7 @@ class CartTestController extends Controller
 	{
 		$cart_item_id = $_GET['id'];
 		$cart = CartItemRepository::find($cart_item_id);
-
 		$cart->delete();
-
-
 	}
 
 	protected function before()

@@ -2,18 +2,19 @@
 
 namespace App\EComm\Repositories;
 
-use App\Models\Product;
-use App\EComm\Traits\ModelOperationTrait;
 use App\EComm\Repositories\CategoryRepository;
-use App\EComm\Repositories\ProductSizeRepository;
-use App\EComm\Repositories\ProductStockRepository;
 use App\EComm\Repositories\ProductAvailableColorRepository;
 use App\EComm\Repositories\ProductAvailableSizeRepository;
+use App\EComm\Repositories\ProductSizeRepository;
+use App\EComm\Repositories\ProductStockRepository;
+use App\EComm\Traits\ModelOperationTrait;
+use App\Models\Product;
+use App\Support\OrderBooker\Interfaces\ProductInterface;
 
 /**
  * Product Repository
  */
-class ProductRepository extends Product
+class ProductRepository extends Product implements ProductInterface
 {
 	protected static $_table = "products";
 
@@ -93,5 +94,20 @@ class ProductRepository extends Product
 	public function productImages($color_id = null)
 	{
 		return ProductImageRepository::byProductColorId($this->id, $color_id);
+	}
+
+	public function markedPrice()
+	{
+		return $this->price_mp;
+	}
+
+	public function sellingPrice()
+	{
+		return $this->price_sp;
+	}
+
+	public function discount()
+	{
+		return $this->markedPrice() - $this->sellingPrice();
 	}
 }
