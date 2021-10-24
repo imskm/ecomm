@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\EComm\Repositories\CartItemRepository;
 use App\EComm\Repositories\CartRepository;
 use App\EComm\Repositories\ColorRepository;
+use App\EComm\Repositories\OrderItemRepository;
+use App\EComm\Repositories\OrderRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Repositories\SizeRepository;
 use App\Middlewares\UserAuthMiddleware;
@@ -48,6 +50,8 @@ class CartController extends Controller
 		$cart_items = $cart->items();
 		$result = [];
 
+		$order = new OrderRepository();
+
 		foreach ($cart_items as $ci) {
 			$product = ProductRepository::find($ci->product_id);
 			$color = ColorRepository::find($ci->color_id);
@@ -62,9 +66,18 @@ class CartController extends Controller
 				'qty' 		=> $qty,
 			];
 
+			$order_item = new OrderItemRepository();
+			$order_item->addProduct($product);
+			$order_item->setVariation('size', $size);
+			$order_item->setVariation('color', $color);
+			$order_item->quantity($qty);
+			$order->addOrderItem($order_item);
+
 		}
+
 		return $this->view->render("Cart/checkout.php", [
 			'items' => $result,
+			'order' => $order,
 		]);
 	}
 

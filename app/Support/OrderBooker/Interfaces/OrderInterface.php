@@ -8,7 +8,13 @@ interface OrderInterface
 {
 	public function addOrderItem(OrderItemInterface $order_item);
 
-	public function total();
+	public function getOrderItems();
+
+	public function grossTotal();
+
+	public function subTotal();
+
+	public function orderTotal();
 
 	public function discount();
 

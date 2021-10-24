@@ -10,16 +10,28 @@ trait OrderItemTrait
 	private $_size;
 	private $_color;
 	private $_qty = 0;
+	private $_variation = [];
 
 	public function addProduct(ProductInterface $product)
 	{
 		$this->_product = $product;
 	}
 
-	public function setVariation($size, $color)
+	public function getProduct()
 	{
-		$this->_size = $size;
-		$this->_color = $color;
+		return $this->_product;
+	}
+
+	public function setVariation($key, $variation)
+	{
+		$this->_variation[$key] = $variation;
+	}
+
+	public function getVariation($key)
+	{
+		return array_key_exists($key, $this->_variation)
+			? $this->_variation[$key]
+			: null;
 	}
 
 	public function quantity(int $qty = null)

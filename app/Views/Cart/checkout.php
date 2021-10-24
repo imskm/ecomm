@@ -8,25 +8,25 @@
       	<h1 class="title">Checkout Page</h1>
         <div class="columns">
         	<div class="column is-7">
-        		<?php foreach ($items as $i): ?>
+        		<?php foreach ($order->getOrderItems() as $i => $oi): ?>
 	          	<div class="box">
-							  <p class="subtitle"><?= e($i->product->title) ?></p>
-							  <p><?= e($i->color->color) ?> &middot; <?= e($i->size->size) ?></p>
-							  <p>&#x20B9; <?= e($i->product->price_sp) ?></p>
-							  <input class="input" type="number"  value="<?= e($i->qty) ?>">
-                <p><a href="/cart/<?= e($i->cart_item->id) ?>/remove-product" class="button is-danger">Remove</a></p>
+							  <p class="subtitle"><?= e($oi->getProduct()->title) ?></p>
+							  <p><?= e($oi->getVariation('color')->color) ?> &middot; <?= e($oi->getVariation('size')->size) ?></p>
+							  <p>&#x20B9; <?= e($oi->getProduct()->price_sp) ?></p>
+							  <input class="input" type="number"  value="<?= e($oi->quantity()) ?>">
+                <p><a href="/cart/<?= e($items[$i]->cart_item->id) ?>/remove-product" class="button is-danger">Remove</a></p>
 							</div>
         		<?php endforeach; ?>
           </div>
           <div class="column is-5">
             <div class="box">
-            	<p>Gross total: &#x20B9; 1000</p>
-            	<p>Discount: &#x20B9; 0</p>
-            	<p>Subtotal: &#x20B9; 1000</p>
+            	<p>Gross total: &#x20B9; <?= $order->grossTotal() ?></p>
+            	<p>Discount: &#x20B9; <?= $order->discount() ?></p>
+            	<p>Subtotal: &#x20B9; <?= $order->subTotal() ?></p>
             	<p>Delivery Fee: &#x20B9; 0</p>
             	<p>Tax: &#x20B9; 0</p>
             	<p>Coupon: &#x20B9; 0</p>
-            	<p>Total: &#x20B9; 1000</p>
+            	<p>Total: &#x20B9; <?= $order->orderTotal() ?></p>
     	        <div class="field is-grouped">
     					  <p class="control is-expanded">
     					    <input class="input is-small" type="text" placeholder="Copon Code">
