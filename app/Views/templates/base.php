@@ -51,8 +51,14 @@
               Logout
             </a>
           </div>
-          
         </div>
+        <a href="/cart/checkout" class="navbar-item">
+          <span class="icon-text">
+            <span class="icon">
+              <i class="fa fa-shopping-cart"></i>
+            </span>
+          </span>
+        </a>
       <?php else: ?>
         <a href="/auth/login" class="navbar-item">Login</a>
         <div class="navbar-item">

@@ -13,7 +13,11 @@
 							  <p class="subtitle"><?= e($oi->getProduct()->title) ?></p>
 							  <p><?= e($oi->getVariation('color')->color) ?> &middot; <?= e($oi->getVariation('size')->size) ?></p>
 							  <p>&#x20B9; <?= e($oi->getProduct()->price_sp) ?></p>
-							  <input class="input" type="number"  value="<?= e($oi->quantity()) ?>">
+                <form action="/cart/update-quantity" method="post">
+                  <input name="cart_item_id" type="hidden" value="<?= e($items[$i]->cart_item->id) ?>">
+  							  <input name="qty" class="input" type="number"  value="<?= e($oi->quantity()) ?>">
+                  <button type="submit" class="button">Update</button>
+                </form>
                 <p><a href="/cart/<?= e($items[$i]->cart_item->id) ?>/remove-product" class="button is-danger">Remove</a></p>
 							</div>
         		<?php endforeach; ?>
