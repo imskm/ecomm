@@ -35,7 +35,7 @@
   </div>
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-primary">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -144,25 +144,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item <?php if($mainPage =='Image'){echo 'menu-open'; } ?> ">
-            <a href="#" class="nav-link <?php if($page =='Product Image'){echo 'active';} ?>">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Image
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/admin/product-image/index" class="nav-link <?php if($page =='Product Image'){echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Product Images List</p>
-                </a>
-              </li> 
-            </ul>
-          </li>
           <li class="nav-item <?php if($mainPage =='Color'){echo 'menu-open'; } ?> ">
-            <a href="#" class="nav-link <?php if($page =='Product Color'){echo 'active';} ?>">
+            <a href="#" class="nav-link <?php if($mainPage =='Color'){echo 'active';} ?>">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Color
@@ -171,15 +154,21 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/product-color/index" class="nav-link <?php if($page =='Product Color'){echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Product Color List</p>
+                <a href="/admin/color/create" class="nav-link <?php if($page =='Create Color'){echo 'active';} ?>">
+                  <i class="fas fa-plus-circle nav-icon"></i>
+                  <p>Create Color</p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="/admin/color/index" class="nav-link <?php if($page =='Color List'){echo 'active';} ?>">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>Color List</p>
                 </a>
               </li> 
             </ul>
           </li>
           <li class="nav-item <?php if($mainPage =='Size'){echo 'menu-open'; } ?> ">
-            <a href="#" class="nav-link <?php if($page =='Product Size'){echo 'active';} ?>">
+            <a href="#" class="nav-link <?php if($mainPage =='Size'){echo 'active';} ?>">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Size
@@ -188,9 +177,61 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/product-size/index" class="nav-link <?php if($page =='Product Size'){echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Product Size List</p>
+                <a href="/admin/size/create" class="nav-link <?php if($page =='Create Size'){echo 'active';} ?>">
+                  <i class="fas fa-plus-circle nav-icon"></i>
+                  <p>Create Size</p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="/admin/size/index" class="nav-link <?php if($page =='Size List'){echo 'active';} ?>">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>Size List</p>
+                </a>
+              </li> 
+            </ul>
+          </li>
+          <li class="nav-item <?php if($mainPage =='Category'){echo 'menu-open'; } ?> ">
+            <a href="#" class="nav-link <?php if($mainPage =='Category'){echo 'active';} ?>">
+              <i class="nav-icon fas fa-tags"></i>
+              <p>
+                Category
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/category/create" class="nav-link <?php if($page =='Create Category'){echo 'active';} ?>">
+                  <i class="fas fa-plus-circle nav-icon"></i>
+                  <p>Create Category</p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="/admin/category/index" class="nav-link <?php if($page =='Category List'){echo 'active';} ?>">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>Category List</p>
+                </a>
+              </li> 
+            </ul>
+          </li>
+          <li class="nav-item <?php if($mainPage =='Material'){echo 'menu-open'; } ?> ">
+            <a href="#" class="nav-link <?php if($mainPage =='Material'){echo 'active';} ?>">
+              <i class="nav-icon fas fa-tags"></i>
+              <p>
+                Materials
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/material/create" class="nav-link <?php if($page =='Create Material'){echo 'active';} ?>">
+                  <i class="fas fa-plus-circle nav-icon"></i>
+                  <p>Create Material</p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="/admin/material/index" class="nav-link <?php if($page =='Material List'){echo 'active';} ?>">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>Materials List</p>
                 </a>
               </li> 
             </ul>
@@ -266,27 +307,3 @@
 <script src="/assets/js/pages/dashboard.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
- <?php //$this->use('templates/base.php', ['title' => 'Home | Admin']) ?>
-
-<!-- <section class="section">
-	<div class="cotainer">
-		<div class="columns is-centered">
-			<div class="column is-6">
-				<div class="box">
-					<h1>Welcome to Admin  Dashboard</h1>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->

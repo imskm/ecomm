@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\EComm\Repositories\ProductImageRepository;
+use App\EComm\Repositories\ProductRepository;
 use App\Middlewares\GuestMiddleware;
 use Fantom\Controller;
 
@@ -10,14 +12,11 @@ use Fantom\Controller;
  */
 class HomeController extends Controller
 {
-	protected function index()
+	public function index()
 	{
-		$this->view->render('welcome.php');
-	}
-
-
-	protected function before()
-	{
-		return (new GuestMiddleware)();
+		$products = ProductRepository::recent(get_page())->get();
+		$this->view->render('Home/index.php',[
+		 	"products" => $products,
+		 ]);
 	}
 }

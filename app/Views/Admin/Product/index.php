@@ -2,22 +2,28 @@
 
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+    <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>All Product List</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Product</li>
-            </ol>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h1>All Product List</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">Product</li>
+                  <li class="breadcrumb-item active">Product List</li>
+                </ol>
+              </div>
+        </div>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content">
+
 
     <!-- Main content -->
     <section class="content">
@@ -59,13 +65,12 @@
                       <th>Selling Price</th>
                       <th>Created At</th>
                       <th>Action</th>
-                      
                     </tr>
                   </thead>
                   <tbody>
                   	<?php foreach($products as $product): ?>
                     <tr>
-                      <td><?= $product->id ?> </td>
+                      <td><a href="/admin/product/<?= e($product->id) ?>/show"><?= $product->id ?></a></td>
                       <td><?= $product->code ?></td>
                       <td><?= $product->title ?></td>
                       <td><?= $product->description ?></td>
@@ -73,7 +78,7 @@
                       <td><?= $product->price_sp ?></td>
                       <td><?= $product->created_at ?></td>
                       <td>
-                        <a href="index"><i class="far fa-edit"></i></a>
+                        <a href="/admin/product/<?= $product->id ?>/edit"><i class="far fa-edit"></i></a>
                         <a href="#"><i class="far fa-trash-alt"></i></a>
                       </td>
 

@@ -45,6 +45,7 @@ class AuthController extends Controller
 		
 		// 5. Redirect to user's home page
 		if ((int) $user->role === 1) {
+			Session::flash('success', 'Congratulation Welcome to the Dashboard.');
 			redirect('admin/home/index');
 		} else if ((int) $user->role === 2) {
 			redirect("user/home/index");

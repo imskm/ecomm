@@ -1,13 +1,12 @@
 <?php $this->use('templates/main.php',['title'=>'Ecomm | Product','mainPage'=>'Product','page'=>'Create Product']) ?>
 
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="card">
         	<div class="card-body">
-        		<div class="row mb-2">
+        		<div class="row">
 		          <div class="col-sm-6">
 		            <h1>Product Create</h1>
 		          </div>
@@ -23,6 +22,9 @@
        </div>
       </div><!-- /.container-fluid -->
     </section>
+    
+    <?php include VIEW_PATH . '/partials/_newmessage.php' ?>
+
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -36,13 +38,13 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
+              <form action="/admin/product/store" method="post">
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-6">
                   		<div class="form-group">
 			                <label>Product Name<span style="color:red;">*</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Product Name" name="product_name">
+			                <input type="text" class="form-control" placeholder="Enter Product Name" name="title">
                   		</div>
                   		<div class="form-group">
 			                <label>Marked Price<span style="color:red;">*</span></label>
@@ -54,13 +56,12 @@
                   		</div>
                   		<div class="form-group">
                   			<label>Category<span style="color:red;">*</span></label>
-                    			<select class="form-control" name="category">
-                    				<option >Select Category</option>
-				                    <option value="">Men Cloths</option>
-				                    <option value="">Electronics</option>
-				                    <option value="">TV and Appliances </option>
-				                    <option value="">Women Clothes </option>
-				                </select>
+                  			<select class="form-control" name="category_id">
+                  				<option disabled="" selected="">Select Category</option>
+                  				<?php foreach ($categories as $c): ?>
+                  					<option value="<?= e($c->id) ?>"><?= e($c->category) ?></option>
+                  				<?php endforeach; ?>
+			                  </select>
                   		</div>
                   	</div>
                   	<div class="col-md-6">
@@ -73,12 +74,14 @@
                     		<textarea class="form-control" name="description" rows="4"></textarea>
                   		</div>
                   		<div class="form-group">
-                  			<label>Select Image</label>
-		                    <div class="custom-file">
-		                      <input type="file" class="custom-file-input" id="customFile">
-		                      <label class="custom-file-label" for="customFile">Choose file</label>
-		                    </div>
-		                </div>
+                  			<label>Material<span style="color:red;">*</span></label>
+                  			<select class="form-control" name="material_id">
+                  				<option disabled="" selected="">Select Material</option>
+                  				<?php foreach ($materials as $m): ?>
+				                    <option value="<?= e($m->id) ?>"><?= e($m->material) ?></option>
+                  				<?php endforeach; ?>
+			                  </select>
+                  		</div>
                   	</div>
                   </div>
                 </div>

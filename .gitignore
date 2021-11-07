@@ -4,7 +4,9 @@ resource/
 tests/
 temp/
 vendor/
+
 storage/
+public/uploads
 
 .*
 !.gitignore
