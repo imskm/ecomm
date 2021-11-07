@@ -38,7 +38,7 @@
     					  </p>
     					</div>
             </div>
-          	<form action="/order/store">
+          	<form action="/order/create">
           		<button type="submit" class="button is-primary is-fullwidth">PLACE ORDER</button>
           	</form>
           </div>
