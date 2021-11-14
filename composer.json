@@ -11,7 +11,8 @@
 	"require": {
 		"php": ">=7.0",
 		"imskm/fantom": "dev-development",
-		"phpunit/phpunit": "^9.5"
+		"phpunit/phpunit": "^9.5",
+		"razorpay/razorpay": "2.*"
 	},
 	"repositories": [
 		{

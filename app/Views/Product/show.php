@@ -13,7 +13,10 @@
           </div>
           <div class="column is-6">
             <form action="/cart/add-item" method="post">
-              <input type="hidden" name="color_id" value="<?= get_or_empty('color_id') ?>">
+              <input
+                type="hidden"
+                name="color_id"
+                value="<?= get_or_empty('color_id') ? get_or_empty('color_id') : $product_colors[0]->color_id ?>">
               <input type="hidden" name="product_id" value="<?= e($product->id) ?>">
               <input type="hidden" name="qty" value="1">
               <h1 class="title"><?= e($product->title) ?></h1>

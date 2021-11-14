@@ -2,11 +2,12 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Repositories\OrderItemRepository;
-use App\EComm\Traits\ModelOperationTrait;
 use App\Models\Order;
-use App\Support\OrderBooker\Interfaces\OrderInterface;
+use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\UserRepository;
 use App\Support\OrderBooker\Traits\OrderTrait;
+use App\EComm\Repositories\OrderItemRepository;
+use App\Support\OrderBooker\Interfaces\OrderInterface;
 
 /**
  * Order repository
@@ -73,6 +74,11 @@ class OrderRepository extends Order implements OrderInterface
 			}
 		}
 
-		return true;
+		return $order;
+	}
+
+	public function user()
+	{
+		return UserRepository::find($this->user_id);
 	}
 }

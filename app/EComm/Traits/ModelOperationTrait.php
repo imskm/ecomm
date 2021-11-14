@@ -8,9 +8,15 @@ trait ModelOperationTrait
 	{
 		if ($this->lastId()) {
 			return $this->lastId();
+			// echo "<pre>";
+			// print_r($this->lastId());
+			// echo "</pre>";
+			// exit;
 		}
 
+
 		return $this->id;
+
 	}
 	public static function find($id)
 	{
