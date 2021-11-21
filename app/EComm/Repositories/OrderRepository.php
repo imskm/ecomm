@@ -81,4 +81,9 @@ class OrderRepository extends Order implements OrderInterface
 	{
 		return UserRepository::find($this->user_id);
 	}
+
+	public static function byRazorypayOrderId($rzp_order_id)
+	{
+		return static::where('rzp_order_id', $rzp_order_id)->first();
+	}
 }
