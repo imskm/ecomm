@@ -2,17 +2,19 @@
 
 namespace App\Controllers;
 
-use App\EComm\Repositories\CartItemRepository;
+use Fantom\Log\Log;
+use Fantom\Session;
+use Fantom\Controller;
+use App\Support\Authentication\Auth;
+use App\EComm\Validators\CartValidator;
+use App\Middlewares\UserAuthMiddleware;
 use App\EComm\Repositories\CartRepository;
+use App\EComm\Repositories\SizeRepository;
 use App\EComm\Repositories\ColorRepository;
-use App\EComm\Repositories\OrderItemRepository;
 use App\EComm\Repositories\OrderRepository;
 use App\EComm\Repositories\ProductRepository;
-use App\EComm\Repositories\SizeRepository;
-use App\Middlewares\UserAuthMiddleware;
-use App\Support\Authentication\Auth;
-use Fantom\Controller;
-use Fantom\Session;
+use App\EComm\Repositories\CartItemRepository;
+use App\EComm\Repositories\OrderItemRepository;
 
 /**
  * 
@@ -90,10 +92,36 @@ class CartController extends Controller
 		redirect('/cart/checkout');
 	}
 
+	protected function updateQuantity()
+	{
+		$v = new CartValidator();
+		$v->validateQuantityUpdate();
+		if ($v->hasError()) {
+			redirect('cart/checkout');
+		}
+
+		$user_id		= Auth::userId();
+		$cart 			= CartRepository::byUserId($user_id)->first();
+		$cart_item_id 	= (int) post_or_empty('cart_item_id');
+		$qty 			= (int) post_or_empty('qty');
+		$cart_item 		= $cart->item($cart_item_id);
+		if (is_null($cart_item)) {
+			Log::info("user {$user_id}: attempted to access others cart item {$cart_item_id}");
+			Session::flash("error", "Cart item not found.");
+			redirect("/cart/checkout");
+		}
+
+		$cart_item->qty = $qty;
+		if ($cart_item->save() === false) {
+			Session::flash("error", "Failed to update quantity");
+			redirect("/cart/checkout");
+		}
+
+		redirect("/cart/checkout");
+	}
+
 	protected function before()
 	{
 		return (new UserAuthMiddleware)();
 	}
 }
-
-?>

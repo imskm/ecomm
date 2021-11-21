@@ -2,18 +2,20 @@
 
 namespace App\Controllers;
 
-use App\EComm\Repositories\CartRepository;
-use App\EComm\Repositories\ColorRepository;
-use App\EComm\Repositories\OrderItemRepository;
-use App\EComm\Repositories\OrderRepository;
-use App\EComm\Repositories\ProductRepository;
-use App\EComm\Repositories\SizeRepository;
-use App\EComm\Validators\OrderValidator;
-use App\Middlewares\UserAuthMiddleware;
-use App\Support\Authentication\Auth;
-use Fantom\Controller;
+use App\Config;
 use Fantom\Log\Log;
 use Fantom\Session;
+use Razorpay\Api\Api;
+use Fantom\Controller;
+use App\Support\Authentication\Auth;
+use App\Middlewares\UserAuthMiddleware;
+use App\EComm\Validators\OrderValidator;
+use App\EComm\Repositories\CartRepository;
+use App\EComm\Repositories\SizeRepository;
+use App\EComm\Repositories\ColorRepository;
+use App\EComm\Repositories\OrderRepository;
+use App\EComm\Repositories\ProductRepository;
+use App\EComm\Repositories\OrderItemRepository;
 
 /**
  * OrderController
@@ -58,14 +60,36 @@ class OrderController extends Controller
 			$order->addOrderItem($order_item);
 		}
 
-		if ($order->forUser(Auth::user())->create() === false) {
+		$created_order = $order->forUser(Auth::user())->create();
+
+		if ($created_order === false) {
 			Log::error("failed to save order");
 			Session::flash("error", "Failed to create order");
 			redirect("/cart/checkout");
 		}
 
+		// Create order in razorpay server
+		$this->createOrderInRazorpay($created_order);
+
 		Session::flash("success", "Congrats! Order created.");
-		redirect("/cart/checkout");
+		redirect("/payment/create?order_id=" . $created_order->thisId());
+	}
+
+	private function createOrderInRazorpay(& $created_order)
+	{
+		$rzp_api = Config::get('rzp_key');
+		$rzp_secret = Config::get('rzp_secret');
+		$api = new Api($rzp_api, $rzp_secret);
+
+		$rzp_order = $api->order->create([
+			'receipt' => $created_order->thisId(),
+			'amount' => $created_order->amount * 100,
+			'currency' => 'INR',
+		]);
+
+		$new_order = OrderRepository::find($created_order->thisId());
+		$new_order->rzp_order_id = $rzp_order['id'];
+		$new_order->save();
 	}
 
 	protected function before()

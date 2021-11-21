@@ -40,4 +40,9 @@ class UserRepository extends User
 		$user->password 	= password_hash(trim($data['password']), PASSWORD_DEFAULT);
 		$user->role 		= 2;
 	}
+
+	public function fullName()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
 }

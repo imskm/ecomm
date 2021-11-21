@@ -56,4 +56,11 @@ class CartRepository extends Cart
 	{
 		return CartItemRepository::where('cart_id', $this->id)->get();
 	}
+
+	public function item($cart_item_id)
+	{
+		return CartItemRepository::where('cart_id', (int) $this->id)
+			->andWhere('id', (int) $cart_item_id)
+			->first();
+	}
 }

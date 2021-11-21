@@ -39,6 +39,7 @@ class ProductController extends Controller
 		}
 
 		$color_id = isset($_GET['color_id']) ? (int) $_GET['color_id'] : null;
+		
 		$primary_images = $product->productImages($color_id)->get();
 		
 		$this->view->render("Product/show.php",[
