@@ -63,4 +63,6 @@ class CartRepository extends Cart
 			->andWhere('id', (int) $cart_item_id)
 			->first();
 	}
+
+	// @TODO Add updateQuantity() method
 }

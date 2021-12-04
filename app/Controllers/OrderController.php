@@ -36,6 +36,9 @@ class OrderController extends Controller
 		$cart_items = $cart->items();
 		$result = [];
 
+		// @TODO Move the order building using cart object in OrderRepository
+		// DO NOT do so much work in controller.
+		// Order creation logic should be moved to OrderRepository
 		$order = new OrderRepository();
 
 		foreach ($cart_items as $ci) {

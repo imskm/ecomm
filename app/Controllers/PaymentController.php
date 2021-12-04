@@ -23,6 +23,8 @@ class PaymentController extends Controller
 		$order_id = (int) get_or_empty('order_id');
 		$order = OrderRepository::find($order_id);
 		$user  = $order->user();
+		// @TODO Move the data building in OrderBooker lib like OrderTrait
+		// So that it can be reused in other project.
 		$data = [
 			'key' 			=> Config::get('rzp_key'),
 			'amount' 		=> $order->amount * 100,
@@ -52,6 +54,11 @@ class PaymentController extends Controller
 			return $res->send();
 		}
 
+		// @TODO Move the payment handling logic in the OrderRepository too,
+		// or may be in OrderBooker lib.
+		// The method handling payment should throw correct exception with
+		// correct error message but be extra careful, DO NOT leak the internal
+		// error detail.
 		$order = OrderRepository::byRazorypayOrderId($_POST['razorpay_order_id']);
 		$_POST['order_id'] = $order->id;
 		$_POST['user_id'] = $order->user_id;

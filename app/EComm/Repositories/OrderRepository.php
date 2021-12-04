@@ -86,4 +86,9 @@ class OrderRepository extends Order implements OrderInterface
 	{
 		return static::where('rzp_order_id', $rzp_order_id)->first();
 	}
+
+	// @TODO Implement a method that will take cart object and
+	// create order using that cart. This will allow developer
+	// to not handle building order object using cart in the
+	// controller.
 }

@@ -24,6 +24,9 @@ class CartController extends Controller
 	
 	protected function addItem()
 	{
+		// @TODO Validate, duplicate assignment $color_id
+		// cleanup $_POST variable
+		// Out of stock product can not be added in the cart
 		$product_id = $_POST['product_id'];
 		$qty = $_POST['qty'];
 		$color_id = $_POST['color_id'];
@@ -85,8 +88,12 @@ class CartController extends Controller
 
 	protected function removeProduct()
 	{
-		$cartItem_id= $this->route_params['id'];
+		$cartItem_id = (int) $this->route_params['id'];
 		$product_remove = CartItemRepository::find($cartItem_id);
+		if (is_null($product_remove)) {
+			Session::flash("error", "Item not present in the cart");
+			redirect('cart/checkout');
+		}
 		$product_remove->delete();
 		Session::flash('success','Product Removed Successfully');
 		redirect('/cart/checkout');
@@ -105,6 +112,7 @@ class CartController extends Controller
 		$cart_item_id 	= (int) post_or_empty('cart_item_id');
 		$qty 			= (int) post_or_empty('qty');
 		$cart_item 		= $cart->item($cart_item_id);
+		// @TODO Use $cart->updateQuantity() method
 		if (is_null($cart_item)) {
 			Log::info("user {$user_id}: attempted to access others cart item {$cart_item_id}");
 			Session::flash("error", "Cart item not found.");
@@ -119,6 +127,8 @@ class CartController extends Controller
 
 		redirect("/cart/checkout");
 	}
+
+	// @TODO Add Apply coupon feature
 
 	protected function before()
 	{
