@@ -65,8 +65,8 @@ class OrderRepository extends Order implements OrderInterface
 				"user_id" 		=> $this->user->id,
 				"color_id" 		=> $oi->getVariation('color')->id,
 				"size_id" 		=> $oi->getVariation('size')->id,
-				"pice_mp" 		=> $oi->markedPrice(),
-				"pice_sp" 		=> $oi->sellingPrice(),
+				"price_mp" 		=> $oi->markedPrice(),
+				"price_sp" 		=> $oi->sellingPrice(),
 				"qty" 		=> $oi->quantity()
 			]);
 			if ($order_item->save() === false) {
@@ -95,4 +95,9 @@ class OrderRepository extends Order implements OrderInterface
 	{
 		return OrderItemRepository::byOrderId($this->thisId());
 	}
+
+	/*public function products()
+	{
+		return OrderItemRepository::byProductId($this->thisId());
+	}*/
 }

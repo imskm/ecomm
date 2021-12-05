@@ -27,11 +27,15 @@ class OrderController extends Controller
 			Session::flash("error", "Order id not found");
 			redirect("admin/order/index");
 		}
+
 		$items = $order->orderItems()->get();
 
-		echo "<pre>";
-		print_r($items);
-		echo "</pre>";
+		$this->view->render("Admin/Order/show.php",[
+			"order" => $order,
+			"order_items" => $items,
+		]);
+
+
 
 	}
 
