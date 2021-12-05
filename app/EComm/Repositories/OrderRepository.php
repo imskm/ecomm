@@ -91,4 +91,8 @@ class OrderRepository extends Order implements OrderInterface
 	// create order using that cart. This will allow developer
 	// to not handle building order object using cart in the
 	// controller.
+	public function orderItems()
+	{
+		return OrderItemRepository::byOrderId($this->thisId());
+	}
 }

@@ -236,6 +236,23 @@
               </li> 
             </ul>
           </li>
+          <li class="nav-item <?php if($mainPage =='Order'){echo 'menu-open'; } ?> ">
+            <a href="#" class="nav-link <?php if($mainPage =='Order'){echo 'active';} ?>">
+              <i class="nav-icon fas fa-tags"></i>
+              <p>
+                Orders
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/admin/order/index" class="nav-link <?php if($page =='Order List'){echo 'active';} ?>">
+                  <i class="fas fa-plus-circle nav-icon"></i>
+                  <p>Order List</p>
+                </a>
+              </li> 
+            </ul>
+          </li>
           <li class="nav-item">
             <a href="/auth/logout" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>

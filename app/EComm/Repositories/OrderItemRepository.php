@@ -33,4 +33,9 @@ class OrderItemRepository extends OrderItem implements OrderItemInterface
 
 		return $oi;
 	}
+
+	public static function byOrderId($order_id)
+	{
+		return static::where("order_id", $order_id);
+	}
 }
