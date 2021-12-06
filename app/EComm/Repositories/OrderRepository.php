@@ -95,9 +95,4 @@ class OrderRepository extends Order implements OrderInterface
 	{
 		return OrderItemRepository::byOrderId($this->thisId());
 	}
-
-	/*public function products()
-	{
-		return OrderItemRepository::byProductId($this->thisId());
-	}*/
 }

@@ -34,9 +34,6 @@ class OrderController extends Controller
 			"order" => $order,
 			"order_items" => $items,
 		]);
-
-
-
 	}
 
 	protected function before()

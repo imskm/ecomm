@@ -4,6 +4,8 @@ namespace App\EComm\Repositories;
 
 use App\Models\OrderItem;
 use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\SizeRepository;
+use App\EComm\Repositories\ColorRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\Support\OrderBooker\Traits\OrderItemTrait;
 use App\Support\OrderBooker\Interfaces\OrderItemInterface;
@@ -43,5 +45,15 @@ class OrderItemRepository extends OrderItem implements OrderItemInterface
 	public function product()
 	{
 		return ProductRepository::find($this->product_id);
+	}
+
+	public function color()
+	{
+		return ColorRepository::find($this->color_id);
+	}
+
+	public function size()
+	{
+		return SizeRepository::find($this->size_id);
 	}
 }
