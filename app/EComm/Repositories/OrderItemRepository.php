@@ -2,10 +2,13 @@
 
 namespace App\EComm\Repositories;
 
-use App\EComm\Traits\ModelOperationTrait;
 use App\Models\OrderItem;
-use App\Support\OrderBooker\Interfaces\OrderItemInterface;
+use App\EComm\Traits\ModelOperationTrait;
+use App\EComm\Repositories\SizeRepository;
+use App\EComm\Repositories\ColorRepository;
+use App\EComm\Repositories\ProductRepository;
 use App\Support\OrderBooker\Traits\OrderItemTrait;
+use App\Support\OrderBooker\Interfaces\OrderItemInterface;
 
 /**
  * OrderItem repository
@@ -26,8 +29,8 @@ class OrderItemRepository extends OrderItem implements OrderItemInterface
 		$oi->user_id 		= (int) $data['user_id'];
 		$oi->color_id 		= (int) $data['color_id'];
 		$oi->size_id 		= (int) $data['size_id'];
-		$oi->pice_mp 		= $data['pice_mp'];
-		$oi->pice_sp 		= $data['pice_sp'];
+		$oi->price_mp 		= $data['price_mp'];
+		$oi->price_sp 		= $data['price_sp'];
 		$oi->qty 			= $data['qty'];
 		$oi->status 		= self::STATUS_CREATED;
 
@@ -37,5 +40,20 @@ class OrderItemRepository extends OrderItem implements OrderItemInterface
 	public static function byOrderId($order_id)
 	{
 		return static::where("order_id", $order_id);
+	}
+
+	public function product()
+	{
+		return ProductRepository::find($this->product_id);
+	}
+
+	public function color()
+	{
+		return ColorRepository::find($this->color_id);
+	}
+
+	public function size()
+	{
+		return SizeRepository::find($this->size_id);
 	}
 }
