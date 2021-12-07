@@ -263,7 +263,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/coupons/create" class="nav-link <?php if($page =='Coupons Create'){echo 'active';} ?>">
+                <a href="/admin/coupon/create" class="nav-link <?php if($page =='Coupons Create'){echo 'active';} ?>">
                   <i class="fas fa-plus-circle nav-icon"></i>
                   <p>Create Coupons</p>
                 </a>
