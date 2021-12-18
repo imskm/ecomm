@@ -8,6 +8,7 @@ trait OrderTrait
 {
 	private $_order_items = [];
 	private $_tax_rate = 0;
+	private $coupon;
 
 	public function addOrderItem(OrderItemInterface $order_item)
 	{
@@ -41,7 +42,8 @@ trait OrderTrait
 	public function orderTotal()
 	{
 		// @TODO Delivery charge, Coupon discount
-		$amount = $this->subTotal() + $this->tax();
+		$coupon_discount = $this->coupon->amount();
+		$amount = $this->subTotal() - $coupon_discount + $this->tax();
 
 		return $amount;
 	}
@@ -59,5 +61,15 @@ trait OrderTrait
 	public function tax()
 	{
 		return $this->subTotal() * $this->_tax_rate;
+	}
+
+	public function applyCoupon(CouponInterface $coupon)
+	{
+		$this->coupon = $coupon;
+	}
+
+	public function couponDiscount()
+	{
+		return $this->coupon->amount();
 	}
 }

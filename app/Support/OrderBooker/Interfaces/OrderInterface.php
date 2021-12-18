@@ -2,6 +2,7 @@
 
 namespace App\Support\OrderBooker\Interfaces;
 
+use App\Support\OrderBooker\Interfaces\CouponInterface;
 use App\Support\OrderBooker\Interfaces\OrderItemInterface;
 
 interface OrderInterface
@@ -19,4 +20,8 @@ interface OrderInterface
 	public function discount();
 
 	public function tax();
+
+	public function applyCoupon(CouponInterface $coupon);
+
+	public function couponDiscount();
 }
