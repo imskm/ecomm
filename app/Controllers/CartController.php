@@ -80,6 +80,8 @@ class CartController extends Controller
 
 		}
 
+		// @TODO Check if coupon exist in this cart then apply it.
+
 		return $this->view->render("Cart/checkout.php", [
 			'items' => $result,
 			'order' => $order,
