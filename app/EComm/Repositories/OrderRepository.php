@@ -7,6 +7,7 @@ use App\EComm\Traits\ModelOperationTrait;
 use App\EComm\Repositories\UserRepository;
 use App\Support\OrderBooker\Traits\OrderTrait;
 use App\EComm\Repositories\OrderItemRepository;
+use App\Support\OrderBooker\Coupons\NullCoupon;
 use App\Support\OrderBooker\Interfaces\OrderInterface;
 
 /**
@@ -23,6 +24,12 @@ class OrderRepository extends Order implements OrderInterface
 	use ModelOperationTrait, OrderTrait;
 
 	private $user;
+
+	public function __construct()
+	{
+		$this->applyCoupon(new NullCoupon());
+		parent::__construct();
+	}
 
 	public static function make(array $data)
 	{
