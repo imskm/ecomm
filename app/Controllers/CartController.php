@@ -12,9 +12,11 @@ use App\EComm\Repositories\CartRepository;
 use App\EComm\Repositories\SizeRepository;
 use App\EComm\Repositories\ColorRepository;
 use App\EComm\Repositories\OrderRepository;
+use App\EComm\Repositories\CouponRepository;
 use App\EComm\Repositories\ProductRepository;
 use App\EComm\Repositories\CartItemRepository;
 use App\EComm\Repositories\OrderItemRepository;
+use App\Support\OrderBooker\Coupons\PercentageCoupon;
 
 /**
  * 
@@ -81,6 +83,11 @@ class CartController extends Controller
 		}
 
 		// @TODO Check if coupon exist in this cart then apply it.
+		if ($cart->hasCoupon()) {
+			$coupon_value = CouponRepository::find($cart->coupon_id);
+			$coupon = new PercentageCoupon($order, $coupon_value->value);
+			$order->applyCoupon($coupon);
+		}
 
 		return $this->view->render("Cart/checkout.php", [
 			'items' => $result,
@@ -130,7 +137,19 @@ class CartController extends Controller
 		redirect("/cart/checkout");
 	}
 
-	// @TODO Add Apply coupon feature
+	protected function applyCoupon()
+	{
+		// @TODO Validate request
+		$coupon_code = post_or_empty('coupon_code');
+		$coupon = CouponRepository::byCouponCode($coupon_code);
+		$cart = CartRepository::byUserId(Auth::userId())->first();
+		// @TODO $cart can by null
+		if ($cart->applyCoupon($coupon)->save() === false) {
+			Session::flash('error', 'Failed to apply coupon.');
+			redirect('cart/checkout');
+		}
+		redirect('cart/checkout');
+	}
 
 	protected function before()
 	{

@@ -29,18 +29,20 @@
             	<p>Subtotal: &#x20B9; <?= $order->subTotal() ?></p>
             	<p>Delivery Fee: &#x20B9; 0</p>
             	<p>Tax: &#x20B9; 0</p>
-            	<p>Coupon: &#x20B9; 0</p>
+            	<p>Coupon: &#x20B9; <?= $order->couponDiscount() ?></p>
             	<p>Total: &#x20B9; <?= $order->orderTotal() ?></p>
-    	        <div class="field is-grouped">
-    					  <p class="control is-expanded">
-    					    <input class="input is-small" type="text" placeholder="Copon Code">
-    					  </p>
-    					  <p class="control">
-    					    <a class="button is-small is-info">
-    					      Apply
-    					    </a>
-    					  </p>
-    					</div>
+              <form action="/cart/apply-coupon" method="post">
+      	        <div class="field is-grouped">
+      					  <p class="control is-expanded">
+      					    <input name="coupon_code" class="input is-small" type="text" placeholder="Copon Code">
+      					  </p>
+      					  <p class="control">
+      					    <button type="submit" class="button is-small is-info">
+      					      Apply
+      					    </button>
+      					  </p>
+      					</div>
+              </form>
             </div>
           	<form action="/order/create">
           		<button type="submit" class="button is-primary is-fullwidth">PLACE ORDER</button>

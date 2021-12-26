@@ -40,29 +40,26 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/admin/color/store" method="POST">
+              <form action="/admin/coupon/store" method="POST">
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-6">
                   		<div class="form-group">
-			                <label>Coupon Name<span style="color:red;"> *</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Coupon Name" name="coupon_name">
-                  		</div>
                   		<div class="form-group">
 			                <label>Coupon Code<span style="color:red;"> *</span></label>
-			                <input type="text" class="form-control" placeholder="Enter Coupon Code" name="coupon_code">
+			                <input type="text" class="form-control" placeholder="Enter Coupon Code" name="coupon">
                   		</div>
                       <div class="form-group">
                       <label>Coupon Value<span style="color:red;"> *</span></label>
-                      <input type="text" class="form-control" placeholder="Enter Coupon Value" name="coupon_value">
+                      <input type="text" class="form-control" placeholder="Enter Coupon Value" name="value">
                       </div>
                       <div class="form-group">
                       <label>Activated At<span style="color:red;">*</span></label>
-                      <input type="date" class="form-control"  name="activated_at">
+                      <input type="date" class="form-control"  name="active_at">
                       </div>
                       <div class="form-group">
                       <label>Expiery at<span style="color:red;"> *</span></label>
-                      <input type="date" class="form-control" name="expiered_at">
+                      <input type="date" class="form-control" name="expired_at">
                       </div>
                   	</div>
                   </div>
