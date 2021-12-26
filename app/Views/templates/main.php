@@ -269,7 +269,7 @@
                 </a>
               </li> 
               <li class="nav-item">
-                <a href="/admin/order/index" class="nav-link <?php if($page =='Coupons List'){echo 'active';} ?>">
+                <a href="/admin/coupon/index" class="nav-link <?php if($page =='Coupons List'){echo 'active';} ?>">
                   <i class="fas fa-plus-circle nav-icon"></i>
                   <p>Coupons List</p>
                 </a>

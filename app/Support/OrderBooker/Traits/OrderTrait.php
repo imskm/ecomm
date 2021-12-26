@@ -2,6 +2,7 @@
 
 namespace App\Support\OrderBooker\Traits;
 
+use App\Support\OrderBooker\Interfaces\CouponInterface;
 use App\Support\OrderBooker\Interfaces\OrderItemInterface;
 
 trait OrderTrait

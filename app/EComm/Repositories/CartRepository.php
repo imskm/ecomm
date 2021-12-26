@@ -64,5 +64,17 @@ class CartRepository extends Cart
 			->first();
 	}
 
+	public function hasCoupon()
+	{
+		return !((int) $this->coupon_id === 0);
+	}
+
+	public function applyCoupon($coupon)
+	{
+		$this->coupon_id = $coupon->thisId();
+
+		return $this;
+	}
+
 	// @TODO Add updateQuantity() method
 }
